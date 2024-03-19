@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfesseurController!{% endblock %}
+
+{% block body %}
+  <div class="container mt-16" style="width: 80%;">
+         {% for message in app.flashes("success") %}
+        <div class=" alert alert-success text-center" style="color:green">
+             {{message}}  
+        </div> 
+        {% endfor %}
+       
+    <div class="row justify-content-center" style="width: 100%;">
+            <h1 class="text-center">Liste des Filieres</h1>
+      <div class="col-8" style="width: 100%;">
+        <a href="" class="btn btn"
+        style="background-color: rgb(5, 68, 104) ;float: right;color: white">
+            Ajouter Filiere</a>
+        <div class="overflow-x-auto" style="width: 100%;">
+          <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Identifiant</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Libelle</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {% for filiere in filieres %}
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">{{filiere.id}}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{filiere.libelle}}</td>
+                <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                    <a href="{{ path('app_filiere_edit',{ id: filiere.id }) }}"><span class="icon"><i class="fas fa-pen"></i></span></a>
+                    <a href="{{ path('app_filiere_delete',{ id: filiere.id }) }}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
+                </td>
+              {% endfor %}
+              <!-- Plus de lignes peuvent être ajoutées ici -->
+            </tbody>
+          </table>
+          <!-- Affichage de la pagination -->
+          <div class="navigation d-flex justify-content-center mt-2">
+            {{ knp_pagination_render(filieres) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
