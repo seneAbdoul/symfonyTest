@@ -66,7 +66,7 @@ class ProfesseurType extends AbstractType
                         "class" => "btn btn-primary mt-4 " ,
                         "style" => "background-color: rgb(5, 68, 104);margin-left:35%"
                     ],
-                    "label" => "Ajouter Professeur",
+                    "label" => "+ Ajouter Professeur",
                     ])
         ;
     }

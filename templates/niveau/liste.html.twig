@@ -1,9 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello NiveauController{% endblock %}
+{% block title %}Liste Niveaux{% endblock %}
 
 {% block body %}
 
-    <h1>Hello ✅ je suis dans liste</h1>
+  <div class="container mt-16 mr-16" style="width: 80%;">
+         {% for message in app.flashes("success") %}
+        <div class=" alert alert-success text-center" style="color:green">
+             {{message}}  
+        </div> 
+        {% endfor %}
+
+        <div class="row justify-content-center mt-2" style="width: 100%; height: 100px;" >
+            {{ form_start(form) }}
+                <div class="form-group d-flex justify-content-between align-items-top">
+                    <div class="form-group " style="margin-top: -1%;">
+                    {{ form_label(form.libelle) }}
+                    </div>
+
+                    <div class="form-group " style="width: 80%;">
+                    {{ form_widget(form.libelle) }}
+                    <div class="form-group">
+                        {{ form_errors(form.libelle) }}
+                    </div>
+                    </div>
+
+                     <div class="form-group" style="margin-top: -2%;">
+                        {{ form_row(form.submit) }}
+                    </div>
+
+                </div>   
+            {{ form_end(form) }}
+    </div>
+
+    <div class="row d-flex justify-content-center" style="width: 100%;">
+        <h1 class="mt-1">Liste des Niveaux</h1>
+        <div class="col-8" style="width: 100%;">
+            <div class="overflow-x-auto " style="width: 100%;">
+                <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Identifiant</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Libelle</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for niveau in niveaux %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ niveau.id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ niveau.libelle }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                                <a href="{{ path('app_niveau_edit',{ id: niveau.id })}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
+                                <a href="{{ path('app_niveau_delete',{ id: niveau.id })}}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Plus de lignes peuvent être ajoutées ici -->
+                    </tbody>
+                </table>
+                <!-- Affichage de la pagination -->
+                <div class="navigation d-flex justify-content-center mt-2">
+                    {{ knp_pagination_render(niveaux) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+  </div>
+
 
 {% endblock %}

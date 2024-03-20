@@ -22,6 +22,13 @@ class Niveau
     #[Assert\NotBlank()]
     private ?string $libelle = null;
 
+    #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'niveau')]
+    private Collection $classes;
+
+    public function __construct()
+    {
+        $this->classes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -40,7 +47,38 @@ class Niveau
         return $this;
     }
 
+    /**
+     * @return Collection<int, Classe>
+     */
 
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
 
+    public function addClass(Classe $class): static
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes->add($class);
+            $class->setNiveau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): static
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getNiveau() === $this) {
+                $class->setNiveau(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

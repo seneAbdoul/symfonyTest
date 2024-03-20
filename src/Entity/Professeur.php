@@ -19,16 +19,13 @@ class Professeur extends User
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'professeur')]
     private Collection $classeProfesseurs;
 
-    #[ORM\OneToMany(targetEntity: Module::class, mappedBy: 'professeur')]
-    private Collection $modules;
+    #[ORM\ManyToOne(inversedBy: 'professeurs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Module $module = null;
 
+   
 
-    public function __construct()
-    {
-        $this->classeProfesseurs = new ArrayCollection();
-        $this->modules = new ArrayCollection();
-    }
-
+   
     public function getGrade(): ?string
     {
         return $this->grade;
@@ -61,6 +58,7 @@ class Professeur extends User
         return $this->classeProfesseurs;
     }
 
+
     public function addClasseProfesseur(ClasseProfesseur $classeProfesseur): static
     {
         if (!$this->classeProfesseurs->contains($classeProfesseur)) {
@@ -71,36 +69,19 @@ class Professeur extends User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Module>
-     */
-    public function getModules(): Collection
+    public function getModule(): ?Module
     {
-        return $this->modules;
+        return $this->module;
     }
 
-    public function addModule(Module $module): static
+    public function setModule(?Module $module): static
     {
-        if (!$this->modules->contains($module)) {
-            $this->modules->add($module);
-            $module->setProfesseur($this);
-        }
+        $this->module = $module;
 
         return $this;
     }
 
-    public function removeModule(Module $module): static
-    {
-        if ($this->modules->removeElement($module)) {
-            // set the owning side to null (unless already changed)
-            if ($module->getProfesseur() === $this) {
-                $module->setProfesseur(null);
-            }
-        }
-
-        return $this;
-    }
-
+  
 
 
 }

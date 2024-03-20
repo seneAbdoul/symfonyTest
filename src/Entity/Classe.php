@@ -26,15 +26,14 @@ class Classe
     #[ORM\JoinColumn(nullable: false)]
     private ?Filiere $filiere = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Niveau $niveau = null;
-
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'classe')]
     private Collection $yes;
 
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'classe')]
     private Collection $inscriptions;
+
+    #[ORM\ManyToOne(inversedBy: 'classes')]
+    private ?Niveau $niveau = null;
 
     public function __construct()
     {
@@ -67,18 +66,6 @@ class Classe
     public function setFiliere(?Filiere $filiere): static
     {
         $this->filiere = $filiere;
-
-        return $this;
-    }
-
-    public function getNiveau(): ?Niveau
-    {
-        return $this->niveau;
-    }
-
-    public function setNiveau(?Niveau $niveau): static
-    {
-        $this->niveau = $niveau;
 
         return $this;
     }
@@ -150,8 +137,17 @@ class Classe
 
         return $this;
     }
-   
 
+    public function getNiveau(): ?Niveau
+    {
+        return $this->niveau;
+    }
 
+    public function setNiveau(?Niveau $niveau): static
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
 
 }

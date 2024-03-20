@@ -27,13 +27,14 @@ class Module
     #[ORM\OneToMany(targetEntity: Professeur::class, mappedBy: 'module')]
     private Collection $professeurs;
 
-    #[ORM\ManyToOne(inversedBy: 'modules')]
-    private ?Professeur $professeur = null;
-
     public function __construct()
     {
         $this->professeurs = new ArrayCollection();
     }
+
+   
+
+   
 
     public function getId(): ?int
     {
@@ -60,17 +61,32 @@ class Module
         return $this->professeurs;
     }
 
-    public function getProfesseur(): ?Professeur
+    public function addProfesseur(Professeur $professeur): static
     {
-        return $this->professeur;
-    }
-
-    public function setProfesseur(?Professeur $professeur): static
-    {
-        $this->professeur = $professeur;
+        if (!$this->professeurs->contains($professeur)) {
+            $this->professeurs->add($professeur);
+            $professeur->setModule($this);
+        }
 
         return $this;
     }
 
+    public function removeProfesseur(Professeur $professeur): static
+    {
+        if ($this->professeurs->removeElement($professeur)) {
+            // set the owning side to null (unless already changed)
+            if ($professeur->getModule() === $this) {
+                $professeur->setModule(null);
+            }
+        }
+
+        return $this;
+    }
+
+ 
+
+
+
+ 
 
 }

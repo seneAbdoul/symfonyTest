@@ -57,25 +57,4 @@ class Filiere
         return $this->classes;
     }
 
-    public function addClass(Classe $class): static
-    {
-        if (!$this->classes->contains($class)) {
-            $this->classes->add($class);
-            $class->setFiliere($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classe $class): static
-    {
-        if ($this->classes->removeElement($class)) {
-            // set the owning side to null (unless already changed)
-            if ($class->getFiliere() === $this) {
-                $class->setFiliere(null);
-            }
-        }
-
-        return $this;
-    }
 }
