@@ -19,18 +19,19 @@ class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i=0; $i < 3 ; $i++){
                 $module = $this->getReference("module".$i);
-                $professeur = new Professeur();
-                $professeur->setGrade($this->faker->word());
-                $professeur->setCni($this->faker->numerify('#########'));
-                $professeur->setNom($this->faker->lastName());
-                $professeur->setPrenom($this->faker->firstName());
-                $professeur->setEmail($this->faker->email());
-                $professeur->setModule($module);
-                $professeur->setPlainPassword("passer");
-                $professeur->setRoles(["ROLE_PROFESSEUR"]);
-                $manager->persist($professeur);
-                $this->setReference('professeur'.$i, $professeur);
-
+                for ($j= 0; $j < 3; $j++){
+                    $professeur = new Professeur();
+                    $professeur->setGrade($this->faker->word());
+                    $professeur->setCni($this->faker->numerify('#########'));
+                    $professeur->setNom($this->faker->lastName());
+                    $professeur->setPrenom($this->faker->firstName());
+                    $professeur->setEmail($this->faker->email());
+                    $professeur->setModule($module);
+                    $professeur->setPlainPassword("passer");
+                    $professeur->setRoles(["ROLE_PROFESSEUR"]);
+                    $manager->persist($professeur);
+                    $this->setReference('professeur'.$j, $professeur);
+                }
         }
         $manager->flush();
     }
