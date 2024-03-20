@@ -34,6 +34,9 @@ class AnneeScolaire
         $this->classeProfesseurs = new ArrayCollection();
     }
 
+    
+
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +69,10 @@ class AnneeScolaire
     /**
      * @return Collection<int, ClasseProfesseur>
      */
+
+    /**
+     * @return Collection<int, ClasseProfesseur>
+     */
     public function getClasseProfesseurs(): Collection
     {
         return $this->classeProfesseurs;
@@ -92,4 +99,7 @@ class AnneeScolaire
 
         return $this;
     }
+
+
+
 }

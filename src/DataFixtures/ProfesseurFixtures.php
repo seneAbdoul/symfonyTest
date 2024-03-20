@@ -17,21 +17,27 @@ class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i < 10 ; $i++){
-            $professeur = new Professeur();
-            $professeur->setNom($this->faker->lastName())
-                       ->setPrenom($this->faker->firstName())
-                       ->setGrade($this->faker->word());
-            $manager->persist($professeur);
-            $this->addReference('professeur'.$i, $professeur);
-        }
+        for ($i=0; $i < 3 ; $i++){
+                $module = $this->getReference("module".$i);
+                $professeur = new Professeur();
+                $professeur->setGrade($this->faker->word());
+                $professeur->setCni($this->faker->numerify('#########'));
+                $professeur->setNom($this->faker->lastName());
+                $professeur->setPrenom($this->faker->firstName());
+                $professeur->setEmail($this->faker->email());
+                $professeur->setModule($module);
+                $professeur->setPlainPassword("passer");
+                $professeur->setRoles(["ROLE_PROFESSEUR"]);
+                $manager->persist($professeur);
+                $this->setReference('professeur'.$i, $professeur);
 
+        }
         $manager->flush();
     }
         public function getDependencies()
         {
         return array(
-        ClasseFixtures::class,
-        );
+        ModuleFixtures::class,
+         );
         }
 }

@@ -30,19 +30,12 @@ class Classe
     #[ORM\JoinColumn(nullable: false)]
     private ?Niveau $niveau = null;
 
-    #[ORM\ManyToMany(targetEntity: Professeur::class, mappedBy: 'classes')]
+    #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'classe')]
     private Collection $yes;
-
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'classeProfesseurs')]
-    private ?self $classe = null;
-
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'classe')]
-    private Collection $classeProfesseurs;
 
     public function __construct()
     {
         $this->yes = new ArrayCollection();
-        $this->classeProfesseurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,51 +82,42 @@ class Classe
     /**
      * @return Collection<int, Professeur>
      */
+
+    /**
+     * @return Collection<int, self>
+     */
+
+    /**
+     * @return Collection<int, ClasseProfesseur>
+     */
     public function getYes(): Collection
     {
         return $this->yes;
     }
 
-
-    public function getClasse(): ?self
+    public function addYe(ClasseProfesseur $ye): static
     {
-        return $this->classe;
-    }
-
-    public function setClasse(?self $classe): static
-    {
-        $this->classe = $classe;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getClasseProfesseurs(): Collection
-    {
-        return $this->classeProfesseurs;
-    }
-
-    public function addClasseProfesseur(self $classeProfesseur): static
-    {
-        if (!$this->classeProfesseurs->contains($classeProfesseur)) {
-            $this->classeProfesseurs->add($classeProfesseur);
-            $classeProfesseur->setClasse($this);
+        if (!$this->yes->contains($ye)) {
+            $this->yes->add($ye);
+            $ye->setClasse($this);
         }
 
         return $this;
     }
 
-    public function removeClasseProfesseur(self $classeProfesseur): static
+    public function removeYe(ClasseProfesseur $ye): static
     {
-        if ($this->classeProfesseurs->removeElement($classeProfesseur)) {
+        if ($this->yes->removeElement($ye)) {
             // set the owning side to null (unless already changed)
-            if ($classeProfesseur->getClasse() === $this) {
-                $classeProfesseur->setClasse(null);
+            if ($ye->getClasse() === $this) {
+                $ye->setClasse(null);
             }
         }
 
         return $this;
     }
+   
+
+
+
 }

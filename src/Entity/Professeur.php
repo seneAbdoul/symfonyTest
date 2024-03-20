@@ -7,65 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
 #[ORM\Entity(repositoryClass: ProfesseurRepository::class)]
-class Professeur
+class Professeur extends User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(length: 25)]
-    #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 25)]
-    #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
-    private ?string $prenom = null;
-
-    #[ORM\Column(length: 25)]
-    #[Assert\NotBlank()]
     private ?string $grade = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $Cni = null;
 
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'professeur')]
     private Collection $classeProfesseurs;
 
+    #[ORM\ManyToOne(inversedBy: 'professeurs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Module $module = null;
+
     public function __construct()
     {
         $this->classeProfesseurs = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-
-        return $this;
     }
 
     public function getGrade(): ?string
@@ -76,6 +36,18 @@ class Professeur
     public function setGrade(string $grade): static
     {
         $this->grade = $grade;
+
+        return $this;
+    }
+
+    public function getCni(): ?string
+    {
+        return $this->Cni;
+    }
+
+    public function setCni(string $Cni): static
+    {
+        $this->Cni = $Cni;
 
         return $this;
     }
@@ -106,6 +78,18 @@ class Professeur
                 $classeProfesseur->setProfesseur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): static
+    {
+        $this->module = $module;
 
         return $this;
     }

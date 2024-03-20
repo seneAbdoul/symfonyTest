@@ -14,27 +14,30 @@ class ClasseProfesseur
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'classeProfesseurs')]
-    private ?Professeur $professeur = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AnneeScolaire $anneeScolaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'classeProfesseurs')]
+    #[ORM\ManyToOne(inversedBy: 'yes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Classe $classe = null;
 
     #[ORM\ManyToOne(inversedBy: 'classeProfesseurs')]
-    private ?AnneeScolaire $anneeScolaire = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Professeur $professeur = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProfesseur(): ?Professeur
+    public function getAnneeScolaire(): ?AnneeScolaire
     {
-        return $this->professeur;
+        return $this->anneeScolaire;
     }
 
-    public function setProfesseur(?Professeur $professeur): static
+    public function setAnneeScolaire(?AnneeScolaire $anneeScolaire): static
     {
-        $this->professeur = $professeur;
+        $this->anneeScolaire = $anneeScolaire;
 
         return $this;
     }
@@ -51,14 +54,14 @@ class ClasseProfesseur
         return $this;
     }
 
-    public function getAnneeScolaire(): ?AnneeScolaire
+    public function getProfesseur(): ?Professeur
     {
-        return $this->anneeScolaire;
+        return $this->professeur;
     }
 
-    public function setAnneeScolaire(?AnneeScolaire $anneeScolaire): static
+    public function setProfesseur(?Professeur $professeur): static
     {
-        $this->anneeScolaire = $anneeScolaire;
+        $this->professeur = $professeur;
 
         return $this;
     }
