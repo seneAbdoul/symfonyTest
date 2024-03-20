@@ -19,13 +19,14 @@ class Professeur extends User
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'professeur')]
     private Collection $classeProfesseurs;
 
-    #[ORM\ManyToOne(inversedBy: 'professeurs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Module $module = null;
+    #[ORM\OneToMany(targetEntity: Module::class, mappedBy: 'professeur')]
+    private Collection $modules;
+
 
     public function __construct()
     {
         $this->classeProfesseurs = new ArrayCollection();
+        $this->modules = new ArrayCollection();
     }
 
     public function getGrade(): ?string
@@ -70,27 +71,36 @@ class Professeur extends User
         return $this;
     }
 
-    public function removeClasseProfesseur(ClasseProfesseur $classeProfesseur): static
+    /**
+     * @return Collection<int, Module>
+     */
+    public function getModules(): Collection
     {
-        if ($this->classeProfesseurs->removeElement($classeProfesseur)) {
+        return $this->modules;
+    }
+
+    public function addModule(Module $module): static
+    {
+        if (!$this->modules->contains($module)) {
+            $this->modules->add($module);
+            $module->setProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModule(Module $module): static
+    {
+        if ($this->modules->removeElement($module)) {
             // set the owning side to null (unless already changed)
-            if ($classeProfesseur->getProfesseur() === $this) {
-                $classeProfesseur->setProfesseur(null);
+            if ($module->getProfesseur() === $this) {
+                $module->setProfesseur(null);
             }
         }
 
         return $this;
     }
 
-    public function getModule(): ?Module
-    {
-        return $this->module;
-    }
 
-    public function setModule(?Module $module): static
-    {
-        $this->module = $module;
 
-        return $this;
-    }
 }

@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ModuleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ModuleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
+#[UniqueEntity('libelle')]
 class Module
 {
     #[ORM\Id]
@@ -16,10 +20,15 @@ class Module
     private ?int $id = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\Length(min: 2, max: 25)]
+    #[Assert\NotBlank()]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(targetEntity: Professeur::class, mappedBy: 'module')]
     private Collection $professeurs;
+
+    #[ORM\ManyToOne(inversedBy: 'modules')]
+    private ?Professeur $professeur = null;
 
     public function __construct()
     {
@@ -51,25 +60,17 @@ class Module
         return $this->professeurs;
     }
 
-    public function addProfesseur(Professeur $professeur): static
+    public function getProfesseur(): ?Professeur
     {
-        if (!$this->professeurs->contains($professeur)) {
-            $this->professeurs->add($professeur);
-            $professeur->setModule($this);
-        }
+        return $this->professeur;
+    }
+
+    public function setProfesseur(?Professeur $professeur): static
+    {
+        $this->professeur = $professeur;
 
         return $this;
     }
 
-    public function removeProfesseur(Professeur $professeur): static
-    {
-        if ($this->professeurs->removeElement($professeur)) {
-            // set the owning side to null (unless already changed)
-            if ($professeur->getModule() === $this) {
-                $professeur->setModule(null);
-            }
-        }
 
-        return $this;
-    }
 }

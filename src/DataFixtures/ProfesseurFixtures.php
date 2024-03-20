@@ -26,7 +26,7 @@ class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
                     $professeur->setNom($this->faker->lastName());
                     $professeur->setPrenom($this->faker->firstName());
                     $professeur->setEmail($this->faker->email());
-                    $professeur->setModule($module);
+                   // $professeur->setModule($module);
                     $professeur->setPlainPassword("passer");
                     $professeur->setRoles(["ROLE_PROFESSEUR"]);
                     $manager->persist($professeur);
