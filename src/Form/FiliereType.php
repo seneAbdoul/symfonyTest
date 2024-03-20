@@ -35,9 +35,9 @@ class FiliereType extends AbstractType
             ->add('submit', SubmitType::class, [
                 "attr" => [
                     "class" => "btn btn-primary mt-4 " ,
-                    "style" => "background-color: rgb(5, 68, 104);margin-left:35%"
+                    "style" => "background-color: rgb(5, 68, 104);"
                 ],
-                "label" => "Ajouter Filiere",
+                "label" => "+ Ajouter Filiere",
                 ])
         ;
     }
