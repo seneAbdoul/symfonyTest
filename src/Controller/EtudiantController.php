@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\AnneeScolaire;
+use App\Entity\Classe;
 use App\Entity\Etudiant;
 use App\Form\EtudiantType;
+use App\Entity\Inscription;
+use App\Repository\AnneeScolaireRepository;
 use App\Repository\ClasseRepository;
 use App\Repository\EtudiantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,25 +38,38 @@ class EtudiantController extends AbstractController
     }
 
     #[Route('/etudiant/add', name: 'app_etudiant_add', methods: ['GET','POST'])]
-    public function add(EntityManagerInterface $manager,Request $request,ClasseRepository $classe): Response
+    public function add(EntityManagerInterface $manager,
+    Request $request,
+    ClasseRepository $classe,AnneeScolaireRepository $anneeScolaireRepository): Response
     {
-        $classes = $classe->findAll();
         $etudiant = new Etudiant();
+        $inscription = new Inscription();
+        $annee = $anneeScolaireRepository->findOneBy(['etat' => 'true']);
         $etudiant->setRoles(["ROLE_ETUDIANT"]);
         $form = $this->createForm(EtudiantType::class, $etudiant);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        
+        if ($form->isSubmitted() && $form->isValid()){
+            //ajout etudiant et user
             $etudiant = $form->getData();
+            $manager ->persist($etudiant);
+            $manager->flush();
+
+            //ajout inscription aussi
+            $inscription ->setEtudiant($etudiant);
+            $inscription ->setClasse($etudiant -> getClasse());
+            $inscription ->setAnneeScolaire($annee);
+            $manager ->persist($inscription);
+            $manager->flush();
+           
             $this ->addFlash(
                 "success",
-                 "inscription ajouter avec succes");
-                 $manager ->persist($etudiant);
-                 $manager->flush();
+                 "inscription ajout dans les deux effectuer avec succes");
                  return $this->redirectToRoute("app_security_login");
         }
         return $this->render('etudiant/add.html.twig',[
             'form'=> $form->createView(),
-            "classes" =>  $classes,
+               "classes" => $classe->findAll()
         ]);
     }
 }

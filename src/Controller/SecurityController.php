@@ -15,11 +15,11 @@ class SecurityController extends AbstractController
     #[Route('/security/login', name: 'app_security_login', methods: ['GET','POST'])]
     public function login(EntityManagerInterface $manager,Request $request): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        return $this->render('security/login.html.twig',[
-            'form'=> $form->createView(),
-        ]);
+        return $this->render('security/login.html.twig');
+    }
+
+    #[Route('/security/deconnexion', name: 'app_security_logout')]
+    public function logout(){
+        //ntothing to do here
     }
 }

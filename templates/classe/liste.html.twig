@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  <div class="container mt-12 mr-16" style="width: 80%;">
+  <div class="container mt-6 mr-16" style="width: 80%;">
 
          {% for message in app.flashes("success") %}
         <div class=" alert alert-success text-center" style="color:green">
@@ -51,7 +51,7 @@
               </div>
               
     <div class="row d-flex justify-content-center" style="width: 100%;">
-        <div class="col-8 mt-4" style="width: 100%;">
+        <div class="col-8 mt-2" style="width: 100%;">
             <div class="overflow-x-auto " style="width: 100%;">
                 <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
                     <thead class="bg-gray-50">
@@ -88,6 +88,5 @@
     
     
   </div>
-
 
 {% endblock %}

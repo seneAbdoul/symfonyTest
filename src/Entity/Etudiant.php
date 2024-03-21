@@ -29,6 +29,9 @@ class Etudiant extends User
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'etudiant')]
     private Collection $inscriptions;
 
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    private ?Classe $classe = null;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -84,6 +87,18 @@ class Etudiant extends User
                 $inscription->setEtudiant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClasse(): ?Classe
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?Classe $classe): static
+    {
+        $this->classe = $classe;
 
         return $this;
     }

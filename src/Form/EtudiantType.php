@@ -2,17 +2,20 @@
 
 namespace App\Form;
 
+use App\Entity\Classe;
+use App\Entity\Filiere;
 use App\Entity\Etudiant;
 use function PHPSTORM_META\type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
@@ -87,6 +90,17 @@ class EtudiantType extends AbstractType
                     new Assert\NotBlank(),
                     new Assert\Length(["max"=> 25,"min"=> "1"]),
                 ]
+                ])
+                ->add('classe', EntityType::class, [
+                    'class' => Classe::class,
+                    'choice_label' => 'libelle',
+                    "attr" => [
+                        "class" => "form-control",
+                    ],
+                    "label" => "classe",
+                    "label_attr" => [
+                       "class"=> "form-label mt-4"
+                    ],
                 ])
             ->add('matricule', TextType::class, [
                 'required'=>false,
