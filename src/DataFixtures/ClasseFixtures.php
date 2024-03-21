@@ -21,7 +21,7 @@ class ClasseFixtures extends Fixture implements DependentFixtureInterface
         for ($i=0; $i <10 ; $i++) { 
               $filiere = $this->getReference('filiere'.$i);
               $niveau = $this->getReference('niveau'.$i);
-            for ($j=0; $j < 5; $j++) { 
+            for ($j=0; $j < 10; $j++) { 
                 $classe = new Classe();
                 $classe->setLibelle($this->faker->word());
                 $classe->setFiliere($filiere);

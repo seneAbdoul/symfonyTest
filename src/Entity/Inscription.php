@@ -50,7 +50,7 @@ class Inscription
     public function setClasse(?Classe $classe): static
     {
         $this->classe = $classe;
-
+        
         return $this;
     }
 

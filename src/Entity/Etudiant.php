@@ -2,19 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\EtudiantRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EtudiantRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
+#[UniqueEntity('matricule')]
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class Etudiant extends User
 {
 
     #[ORM\Column(length: 25)]
+    #[Assert\Length(min: 2, max: 25)]
+    #[Assert\NotBlank()]
     private ?string $matricule = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\Length(min: 2, max: 25)]
+    #[Assert\NotBlank()]
     private ?string $tuteur = null;
 
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'etudiant')]

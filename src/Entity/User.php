@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity('emal')]
+#[UniqueEntity('email')]
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name:'discr', type: 'string')]
@@ -41,6 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank()]
+    #[Assert\Length(min: 4, max: 25)]
     private ?string $password = null;
 
     #[ORM\Column(length: 25)]
@@ -53,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 25)]
     private ?string $prenom = null;
 
-    private ?string $plainPassword = null;
+    private ?string $plainPassword = "passer23";
 
     public function getId(): ?int
     {

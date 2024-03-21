@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste Classes{% endblock %}
+{% block title %}Liste Etudiants inscrits{% endblock %}
 
 {% block body %}
 
   <div class="container mt-12 mr-16" style="width: 80%;">
-
          {% for message in app.flashes("success") %}
         <div class=" alert alert-success text-center" style="color:green">
              {{message}}  
@@ -13,10 +12,10 @@
         {% endfor %}
 
              <div class="titre d-flex justify-content-between">
-                <h1>Liste Des Classes</h1>
+                <h1>Liste Etudiants inscrits</h1>
                    <div class="btn ">
                     <a name="" id="" class="btn btn-info btn-sm mr-4" style="color:white" 
-                    href="{{ path('app_classe_add')}}" role="button">+ Ajouter Classe</a>
+                    href="{{ path('app_etudiant_add')}}" role="button">+ Inscription</a>
                    </div>
              </div>
 
@@ -24,22 +23,18 @@
                 <div class="row ml-10">
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
-                    <label for="selectField" class="date mr-2"> Filieres </label>
+                    <label for="selectField" class="date mr-2"> Classes: </label>
                       <select class="form-control mr-2" id="selectField">
-                         {% for filiere in filieres %}
-                            <option value="{{ filiere.id }}">{{ filiere.libelle }}</option>
+                         {% for classe in classes %}
+                            <option value="{{ classe.id }}">{{ classe.libelle }}</option>
                          {% endfor %}
                       </select>
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
-                    <label for="selectField" class="date mr-2"> Niveaux </label>
-                      <select class="form-control mr-2" id="selectField">
-                         {% for niveau in niveaux %}
-                            <option value="{{ niveau.id }}">{{ niveau.libelle }}</option>
-                         {% endfor %}
-                      </select>
+                        <label for="dateField" class="date mr-2">Date:</label>
+                      <input type="date" class="form-control mr-2" id="dateField">
                     </div>
                   </div>
                   <div class="col-md-4 align-self-end">
@@ -50,29 +45,32 @@
                 </div>
               </div>
               
+          
+
+
     <div class="row d-flex justify-content-center" style="width: 100%;">
         <div class="col-8 mt-4" style="width: 100%;">
             <div class="overflow-x-auto " style="width: 100%;">
                 <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Identifiant</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Libele</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Filiere</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Niveau</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Matricule</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nom</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Prenom</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Classe</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {% for classe in classes %}
+                        {% for inscription in inscriptions %}
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ classe.id}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ classe.libelle  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ classe.getFiliere.libelle  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ classe.getNiveau.libelle  }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.getmatricule }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.nom  }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.prenom  }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getClasse.libelle  }}</td>
                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
-                                <a href="{{ path('app_classe_edit',{ id: classe.id })}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
-                                <a href="{{ path('app_classe_delete',{ id: classe.id })}}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
+                            <a name="" id="" class="btn btn-info btn-sm" style="color:white" href="#" role="button"><i class="fa fa-edit "></i> Absences</a>
+                            <a name="" id="" class="btn btn-sm" style="background-color: rgb(5, 68, 104);color:white" href="#" role="button"><i class="fa fa-trash" aria-hidden="true"></i>Annuler</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -80,7 +78,7 @@
                 </table>
                 <!-- Affichage de la pagination -->
                 <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
-                    {{ knp_pagination_render(classes) }}
+                    {{ knp_pagination_render(inscriptions) }}
                 </div>
             </div>
         </div>

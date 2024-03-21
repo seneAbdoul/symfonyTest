@@ -21,9 +21,9 @@ class EtudiantFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i <=5; $i++) {
+        for ($i = 0; $i <=10; $i++) {
             $etudiant = new Etudiant();
-            $etudiant->setMatricule($this->faker->word());
+            $etudiant->setMatricule($this->faker->numerify('#########'));
             $etudiant->setTuteur($this->faker->firstName()." ".$this->faker->lastName());
             $etudiant->setNom($this->faker->lastName());
             $etudiant->setPrenom($this->faker->firstName());
