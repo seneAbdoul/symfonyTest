@@ -3,7 +3,7 @@
 {% block title %}Hello ProfesseurController!{% endblock %}
 
 {% block body %}
-  <div class="container mt-16" style="width: 80%;">
+    <div class="container mt-6 mr-16" style="width: 80%;">
          {% for message in app.flashes("success") %}
         <div class=" alert alert-success text-center" style="color:green">
              {{message}}  
@@ -13,7 +13,7 @@
     <div class="row justify-content-center" style="width: 100%;">
             <h1 class="text-center">Liste des professeurs</h1>
       <div class="col-8" style="width: 100%;">
-        <a href="{{path('app_professeur')}}" class="btn btn"
+        <a href="{{path('app_professeur_add')}}" class="btn btn"
         style="background-color: rgb(5, 68, 104) ;float: right;color: white">
             Ajouter Professeur</a>
         <div class="overflow-x-auto" style="width: 100%;">
@@ -35,8 +35,8 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{professeur.prenom}}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{professeur.grade}}</td>
                 <td class="px-6 py-4 whitespace-nowrap flex justify-around">
-                    <a href="{{ path('app_professeur_edit',{ id: professeur.id }) }}"><span class="icon"><i class="fas fa-pen"></i></span></a>
-                    <a href="{{ path('app_professeur_delete',{ id: professeur.id }) }}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
+                    <a href=""><span class="icon"><i class="fas fa-pen"></i></span></a>
+                    <a href=""><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                 </td>
               {% endfor %}
               <!-- Plus de lignes peuvent être ajoutées ici -->

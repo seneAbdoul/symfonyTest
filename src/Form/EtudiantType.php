@@ -8,11 +8,12 @@ use App\Entity\Etudiant;
 use function PHPSTORM_META\type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -91,33 +92,6 @@ class EtudiantType extends AbstractType
                     new Assert\Length(["max"=> 25,"min"=> "1"]),
                 ]
                 ])
-                ->add('classe', EntityType::class, [
-                    'class' => Classe::class,
-                    'choice_label' => 'libelle',
-                    "attr" => [
-                        "class" => "form-control",
-                    ],
-                    "label" => "classe",
-                    "label_attr" => [
-                       "class"=> "form-label mt-4"
-                    ],
-                ])
-            ->add('matricule', TextType::class, [
-                'required'=>false,
-                "attr" => [
-                    "class" => "form-control",
-                    "maxlength" => "25",
-                    "minlenght" => "2",
-                ],
-                "label" => "Matricule",
-                "label_attr" => [
-                   "class"=> "form-label mt-4"
-                ],
-                "constraints"=> [
-                    new Assert\NotBlank(),
-                    new Assert\Length(["max"=> 25,"min"=> "2"]),
-                ]
-                ])
             ->add('tuteur', TextType::class, [
                 'required'=>false,
                 "attr" => [
@@ -135,6 +109,14 @@ class EtudiantType extends AbstractType
                     new Assert\Length(["max"=> 25,"min"=> "2"]),
                 ]
                 ])
+                ->add('imageFile', VichImageType::class, [
+                    'label' => 'Image de la recette',
+                    'label_attr' => [
+                        'class' => 'form-label mt-4'
+                    ],
+                    'required' => false
+                ])
+    
                 ->add('submit', SubmitType::class, [
                     "attr" => [
                         "class" => "btn btn-primary mt-4 " ,

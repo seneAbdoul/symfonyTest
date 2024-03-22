@@ -35,14 +35,11 @@ class Classe
     #[ORM\ManyToOne(inversedBy: 'classes')]
     private ?Niveau $niveau = null;
 
-    #[ORM\OneToMany(targetEntity: Etudiant::class, mappedBy: 'classe')]
-    private Collection $etudiants;
 
     public function __construct()
     {
         $this->yes = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
-        $this->etudiants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,36 +147,6 @@ class Classe
     public function setNiveau(?Niveau $niveau): static
     {
         $this->niveau = $niveau;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Etudiant>
-     */
-    public function getEtudiants(): Collection
-    {
-        return $this->etudiants;
-    }
-
-    public function addEtudiant(Etudiant $etudiant): static
-    {
-        if (!$this->etudiants->contains($etudiant)) {
-            $this->etudiants->add($etudiant);
-            $etudiant->setClasse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEtudiant(Etudiant $etudiant): static
-    {
-        if ($this->etudiants->removeElement($etudiant)) {
-            // set the owning side to null (unless already changed)
-            if ($etudiant->getClasse() === $this) {
-                $etudiant->setClasse(null);
-            }
-        }
 
         return $this;
     }

@@ -7,6 +7,8 @@ use App\Repository\EtudiantRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -28,9 +30,6 @@ class Etudiant extends User
 
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'etudiant')]
     private Collection $inscriptions;
-
-    #[ORM\ManyToOne(inversedBy: 'etudiants')]
-    private ?Classe $classe = null;
 
     public function __construct()
     {
@@ -87,18 +86,6 @@ class Etudiant extends User
                 $inscription->setEtudiant(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getClasse(): ?Classe
-    {
-        return $this->classe;
-    }
-
-    public function setClasse(?Classe $classe): static
-    {
-        $this->classe = $classe;
 
         return $this;
     }

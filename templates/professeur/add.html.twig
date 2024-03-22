@@ -1,44 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfesseurController!{% endblock %}
+{% block title %}Professeur!{% endblock %}
 
 {% block body %}
-    <div class="container mt-12">
-        <h1 class="text-center mb-4 " style="color:rgb(5, 68, 104)">Ajout d'un professeur</h1>
-        <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="shadow p-3 mb-5 bg-body rounded">
-                {{ form_start(form) }}
-                    <div class="form-group">
-                        {{ form_label(form.nom) }}
-                        {{ form_widget(form.nom) }}
-                         <div class="form-error">
-                            {{ form_errors(form.nom) }}
-                         </div>
+        <div class="container " style="width: 60%; ;margin-top: 3%">
+            <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 4%;">Ajouter Professeur</h3>
+                <div class="shadow p-3 mb-5 bg-body rounded">
+                    {{ form_start(form) }}
+    
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="form-group" >
+                            {{ form_label(form.nom) }}
+                            {{ form_widget(form.nom) }}
+                            <div class="form-error">
+                                {{ form_errors(form.nom) }}
+                            </div>
+                        </div>
                     </div>
-                    
-                     <div class="form-group">
-                        {{ form_label(form.prenom) }}
-                        {{ form_widget(form.prenom) }}
-                        <div class="form-error">
-                            {{ form_errors(form.nom) }}
-                         </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            {{ form_label(form.prenom) }}
+                            {{ form_widget(form.prenom) }}
+                            <div class="form-error">
+                                {{ form_errors(form.nom) }}
+                            </div>
+                            </div>
+                        </div>
                     </div>
-                     <div class="form-group">
-                        {{ form_label(form.grade) }}
-                        {{ form_widget(form.grade) }}
-                        <div class="form-error">
-                            {{ form_errors(form.nom) }}
-                         </div>
-                    </div>
-                     <div class="form-group">
-                        {{ form_row(form.submit) }}
-                    </div>
-                    
-                {{ form_end(form) }}
-            </div>
+    
+                        <div class="row justify-content-center">
+                            <div class="col-6 mt-4">
+                                <div class="form-group ">
+                                        <label for="selectField" class="form-label"> Classes </label>
+                                          <select name="classe" class="form-select" id="selectField" >
+                                             {% for classe in classes %}
+                                                <option value="{{ classe.id }}">{{ classe.libelle }}</option>
+                                             {% endfor %}
+                                    </select>
+                               </div>
+                            </div>
+                            <div class="col-6" >
+                                <div class="form-group">
+                                   {{ form_label(form.module) }}
+                                   {{ form_widget(form.module) }}
+                                   <div class="form-error">
+                                       {{ form_errors(form.module) }}
+                                   </div>
+                               </div>
+                            </div>
+                        </div>
+    
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {{ form_label(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.email) }}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        {{ form_label(form.password) }}
+                                        {{ form_widget(form.password) }}
+                                        <div class="form-error">
+                                            {{ form_errors(form.password) }}
+                                        </div>
+                                        </div>
+                                </div>
+                           </div>
+    
+                           <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form_label(form.grade) }}
+                                    {{ form_widget(form.grade) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.grade) }}
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+    
+                           <div class="form-group" style="margin-left: 80%;">
+                            {{ form_row(form.submit) }}
+                          </div>   
+                    {{ form_end(form) }}   
         </div>
-        </div>
-    </div>
-       
+      </div>     
 {% endblock %}
+

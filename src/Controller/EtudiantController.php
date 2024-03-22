@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\AnneeScolaire;
 use App\Entity\Classe;
 use App\Entity\Etudiant;
 use App\Form\EtudiantType;
 use App\Entity\Inscription;
-use App\Repository\AnneeScolaireRepository;
+use App\Service\SmsGenerate;
+use App\Entity\AnneeScolaire;
 use App\Repository\ClasseRepository;
 use App\Repository\EtudiantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InscriptionRepository;
+use App\Repository\AnneeScolaireRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,26 +39,32 @@ class EtudiantController extends AbstractController
     }
 
     #[Route('/etudiant/add', name: 'app_etudiant_add', methods: ['GET','POST'])]
-    public function add(EntityManagerInterface $manager,
-    Request $request,
-    ClasseRepository $classe,AnneeScolaireRepository $anneeScolaireRepository): Response
+    public function add(
+        EntityManagerInterface $manager,
+        Request $request,
+        ClasseRepository $classe,
+        AnneeScolaireRepository $anneeScolaireRepository,
+        SmsGenerate $genarator): Response
     {
         $etudiant = new Etudiant();
         $inscription = new Inscription();
         $annee = $anneeScolaireRepository->findOneBy(['etat' => 'true']);
         $etudiant->setRoles(["ROLE_ETUDIANT"]);
+        $etudiant->setMatricule($genarator->generateTruc());
+        $classeId = $request->request->get('classe');
+        $classeInscription = $classe->findOneBy(['id'=> $classeId]);
+
         $form = $this->createForm(EtudiantType::class, $etudiant);
         $form->handleRequest($request);
-        
         if ($form->isSubmitted() && $form->isValid()){
-            //ajout etudiant et user
+            //ajout etudiant etudiant
             $etudiant = $form->getData();
             $manager ->persist($etudiant);
             $manager->flush();
 
             //ajout inscription aussi
             $inscription ->setEtudiant($etudiant);
-            $inscription ->setClasse($etudiant -> getClasse());
+            $inscription ->setClasse($classeInscription);
             $inscription ->setAnneeScolaire($annee);
             $manager ->persist($inscription);
             $manager->flush();
@@ -65,11 +72,11 @@ class EtudiantController extends AbstractController
             $this ->addFlash(
                 "success",
                  "inscription ajout dans les deux effectuer avec succes");
-                 return $this->redirectToRoute("app_security_login");
+                 return $this->redirectToRoute("app_etudiant_Inscritliste");
         }
         return $this->render('etudiant/add.html.twig',[
             'form'=> $form->createView(),
-               "classes" => $classe->findAll()
+            "classes" => $classe->findAll()
         ]);
     }
 }

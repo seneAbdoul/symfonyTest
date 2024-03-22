@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Classe;
 use App\Entity\Professeur;
 use App\Form\ProfesseurType;
+use App\Service\SmsGenerate;
+use App\Entity\ClasseProfesseur;
+use App\Repository\ClasseRepository;
 use App\Repository\ProfesseurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AnneeScolaireRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +19,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfesseurController extends AbstractController
 {
-    #[Route('/professeur/add', name: 'app_professeur',methods: ['GET',"POST"])]
-    public function index(Request  $request,EntityManagerInterface $manager): Response
+    #[Route('/professeur/add', name: 'app_professeur_add',methods: ['GET',"POST"])]
+    public function index(Request  $request,
+    EntityManagerInterface $manager,
+    ClasseRepository $classeRepository,
+    AnneeScolaireRepository $anneeScolaireRepository,
+    SmsGenerate $genarator): Response
     {
         $professeur = new Professeur();
-        $form = $this->createForm(ProfesseurType::class, $professeur);
+        $classeProfesseur = new ClasseProfesseur();
+        $annee = $anneeScolaireRepository->findOneBy(['etat' => 'true']);
+        $professeur->setRoles(["ROLE_PROFESSEUR"]);
+        $classeId = $request->request->get('classe');
+        $classe = $classeRepository->findOneBy(['id'=> $classeId]);
+        $professeur->setCni($genarator->generateTruc());
 
+        $form = $this->createForm(ProfesseurType::class, $professeur);
         $form->handleRequest($request);
-        if($form ->isSubmitted() && $form->isValid()) {
-            $manager ->persist($professeur);
-            $manager ->flush();
+        if ($form->isSubmitted() && $form->isValid()) { 
+               $professeur = $form ->getData();
+               $manager ->persist($professeur);
+               $manager ->flush();
+
+               $classeProfesseur ->setProfesseur($professeur);
+               $classeProfesseur->setAnneeScolaire($annee);
+               $classeProfesseur->setClasse($classe);
+               $manager ->persist($classeProfesseur);
+               $manager ->flush();
             $this ->addFlash(
                 "success",
                  "professeur ajouter avec succes");
@@ -31,6 +53,7 @@ class ProfesseurController extends AbstractController
         }
         return $this->render('professeur/add.html.twig',[
             "form" => $form->createView(),
+            "classes" => $classeRepository->findAll()
         ]);
     }
 
@@ -38,41 +61,13 @@ class ProfesseurController extends AbstractController
     public function index1(ProfesseurRepository $professeurRepository,PaginatorInterface $paginator,Request $request): Response
     {
         $professeurs = $paginator->paginate(
-            $professeurRepository->findAll(), /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            5 /*limit per page*/
+            $professeurRepository->findAll(), 
+            $request->query->getInt('page', 1), 
+            5 
         );
         return $this->render('professeur/liste.html.twig', [
             'professeurs'=> $professeurs
         ]);
     }
 
-    #[Route('/professeur/edition/{id}', name: 'app_professeur_edit',methods: ['GET','POST'])]
-    public function edit(Professeur $professeur,Request $request,EntityManagerInterface $manager): Response
-    {
-        $form = $this->createForm(ProfesseurType::class, $professeur);
-        $form->handleRequest($request);
-        if($form ->isSubmitted() && $form->isValid()) {
-            $manager ->persist($professeur);
-            $manager ->flush();
-            $this ->addFlash(
-                "success",
-                 "professeur a ete modifie avec succes");
-                 return $this->redirectToRoute("app_professeur_liste");
-        }        
-        return $this->render('professeur/edit.html.twig',[
-            'form'=> $form->createView(),
-        ]);
-    }
-
-    #[Route('/professeur/suppression/{id}', name: 'app_professeur_delete',methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager, Professeur $professeur): Response
-    {
-         $manager ->remove($professeur);
-         $manager ->flush(); 
-         $this ->addFlash(
-            "success",
-             "professeur a ete supprime avec succes");
-             return $this->redirectToRoute("app_professeur_liste");
-    }
 }
