@@ -7,10 +7,11 @@ use App\Entity\Module;
 use App\Entity\Professeur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -117,6 +118,13 @@ class ProfesseurType extends AbstractType
                  "constraints"=> [
                     new Assert\NotBlank(),
                 ]
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 "attr" => [

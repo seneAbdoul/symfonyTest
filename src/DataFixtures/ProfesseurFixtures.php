@@ -17,9 +17,9 @@ class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i < 3 ; $i++){
+        for ($i=0; $i < 10 ; $i++){
                 $module = $this->getReference("module".$i);
-                for ($j= 0; $j < 3; $j++){
+                for ($j= 0; $j < 10; $j++){
                     $professeur = new Professeur();
                     $professeur->setGrade($this->faker->word());
                     $professeur->setCni($this->faker->numerify('#########'));

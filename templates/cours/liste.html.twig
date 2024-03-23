@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste Etudiants inscrits{% endblock %}
+{% block title %}Mes cours{% endblock %}
 
 {% block body %}
 
@@ -12,10 +12,10 @@
         {% endfor %}
 
              <div class="titre d-flex justify-content-between">
-                <h1>Liste Etudiants inscrits</h1>
+                <h1>Liste Mes Cours</h1>
                    <div class="btn ">
                     <a name="" id="" class="btn btn-info btn-sm mr-4" style="color:white" 
-                    href="{{ path('app_etudiant_add')}}" role="button">+ Inscription</a>
+                    href="" role="button">+ Inscription</a>
                    </div>
              </div>
 
@@ -25,9 +25,7 @@
                     <div class="d-flex align-items-center">
                     <label for="selectField" class="date mr-2"> Classes: </label>
                       <select class="form-select mr-2" id="selectField">
-                         {% for classe in classes %}
-                            <option value="{{ classe.id }}">{{ classe.libelle }}</option>
-                         {% endfor %}
+                            <option value=""></option>
                       </select>
                     </div>
                   </div>
@@ -54,20 +52,21 @@
                 <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Matricule</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nom</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Prenom</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">identifiant</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">libelle</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Professeur</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Classe</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {% for inscription in inscriptions %}
+                        {% for cour in cours %}
+                     
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.matricule }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.nom  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.prenom  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getClasse.libelle  }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.id}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.libelle }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.getProfesseur.getNom() }}  {{ cour.getProfesseur.getPrenom() }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.getProfesseur.getModule.libelle }}</td>
                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
                             <a name="" id="" class="btn btn-info btn-sm" style="color:white" href="#" role="button"><i class="fa fa-edit "></i> Absences</a>
                             <a name="" id="" class="btn btn-sm" style="background-color: rgb(5, 68, 104);color:white" href="#" role="button"><i class="fa fa-trash" aria-hidden="true"></i>Annuler</a>
@@ -78,7 +77,7 @@
                 </table>
                 <!-- Affichage de la pagination -->
                 <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
-                    {{ knp_pagination_render(inscriptions) }}
+                    {{ knp_pagination_render(cours) }}
                 </div>
             </div>
         </div>

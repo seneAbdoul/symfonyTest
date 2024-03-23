@@ -26,6 +26,9 @@ class EtudiantController extends AbstractController
     Request $request,
     PaginatorInterface $paginator,ClasseRepository $classe): Response
     {
+        $user = $this->getUser();
+        // dd($user);
+        $etudiant = new Etudiant();
         $classes = $classe->findAll();
        $inscriptions = $paginator ->paginate(
             $inscriptionRepository->findAll(),

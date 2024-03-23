@@ -25,19 +25,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 180)]
     #[Assert\Email()]
     #[Assert\Length(min: 2, max: 180)]
-    private ?string $email = null;
+    protected ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
     #[Assert\NotNull()]
-    private array $roles = [];
+    protected array $roles = [];
 
     /**
      * @var string The hashed password
@@ -45,30 +45,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 4, max: 25)]
-    private ?string $password = null;
+    protected ?string $password = null;
 
     #[ORM\Column(length: 25)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 25)]
-    private ?string $nom = null;
+    protected ?string $nom = null;
 
     #[ORM\Column(length: 25)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 25)]
-    private ?string $prenom = null;
+    protected ?string $prenom = null;
 
     #[Vich\UploadableField(mapping: 'etudiant_images', fileNameProperty: 'imageName')]
-    private ?File $imageFile = null;
+    protected ?File $imageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $imageName = null;
+    protected ?string $imageName = null;
 
-    private ?string $plainPassword = "passer23";
+    protected ?string $plainPassword = "passer23";
 
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     #[Assert\NotNull()]
-    private \DateTimeImmutable $dateAjouterUser;
+    protected \DateTimeImmutable $dateAjouterUser;
 
 
     public function __construct()
