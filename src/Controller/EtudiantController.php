@@ -8,6 +8,7 @@ use App\Form\EtudiantType;
 use App\Entity\Inscription;
 use App\Service\SmsGenerate;
 use App\Entity\AnneeScolaire;
+use App\Repository\AbsenceRepository;
 use App\Repository\ClasseRepository;
 use App\Repository\EtudiantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,11 +26,10 @@ class EtudiantController extends AbstractController
     #[Route('/etudiantInscrit/liste', name: 'app_etudiant_Inscritliste', methods: ['GET'])]
     public function liste(InscriptionRepository $inscriptionRepository,
     Request $request,
-    PaginatorInterface $paginator,ClasseRepository $classe): Response
-    {
-        $etudiant = new Etudiant();
+    PaginatorInterface $paginator,ClasseRepository $classe,AbsenceRepository $absenceRepository): Response
+    {     
         $classes = $classe->findAll();
-       $inscriptions = $paginator ->paginate(
+        $inscriptions = $paginator ->paginate(
             $inscriptionRepository->findAll(),
             $request->query->getInt('page',1),
             5,
@@ -80,5 +80,27 @@ class EtudiantController extends AbstractController
             'form'=> $form->createView(),
             "classes" => $classe->findAll()
         ]);
+    }
+
+    #[Route('/etudiant/absence', name: 'app_etudiant_absence', methods: ['GET','POST'])]
+    public function absence(PaginatorInterface $paginator,Request $request){
+        $etudiant = $this->getUser();
+        if ($etudiant instanceof Etudiant) {
+            $absencess = $etudiant->getAbsences()->toArray();
+        }
+        $absences = $paginator ->paginate(
+            $absencess,
+            $request->query->getInt('page',1),
+            5,
+        );
+       return $this->render('etudiant/absence.html.twig',[
+               'absences'=> $absences
+       ]);
+    }
+
+    #[Route('/etudiant/cour', name: 'app_etudiant_cour', methods: ['GET','POST'])]
+    public function cour(PaginatorInterface $paginator,Request $request){
+
+       return $this->render('etudiant/cours.html.twig');
     }
 }

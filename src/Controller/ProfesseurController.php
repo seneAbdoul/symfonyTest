@@ -71,4 +71,20 @@ class ProfesseurController extends AbstractController
         ]);
     }
 
+    #[Route('/professeur/cour', name: 'app_professeur_cour', methods: ['GET','POST'])]
+    public function cour(PaginatorInterface $paginator,Request $request){
+        $professeur = $this->getUser();
+        if ($professeur instanceof Professeur) {
+            $courss = $professeur->getCours()->toArray();
+        }
+        $cours = $paginator ->paginate(
+            $courss,
+            $request->query->getInt('page',1),
+            5,
+        );
+       return $this->render('professeur/cours.html.twig',[
+               'cours'=> $cours
+       ]);
+    }
+
 }
