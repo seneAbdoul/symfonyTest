@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\Classe;
 use App\Form\ClasseType;
 use App\Repository\ClasseRepository;
-use App\Repository\FiliereRepository;
 use App\Repository\NiveauRepository;
+use App\Repository\FiliereRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+#use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ClasseController extends AbstractController
 {
@@ -23,6 +26,7 @@ class ClasseController extends AbstractController
         $form = $this->createForm(ClasseType::class, $classe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $classe = $form->getData();
             $manager ->persist($classe);
             $manager->flush();
             $this ->addFlash(
@@ -35,6 +39,7 @@ class ClasseController extends AbstractController
         ]);
     }
 
+  
     #[Route('/classe/liste', name: 'app_classe_liste', methods: ['GET'])]
     public function liste(ClasseRepository $classeRepository,
     PaginatorInterface $paginator,

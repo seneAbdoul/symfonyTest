@@ -41,7 +41,7 @@ class ProfesseurType extends AbstractType
                     new Assert\Length(["max"=> "180","min"=> "2"]),
                 ]
             ])
-            ->add('password',PasswordType::class,[
+            ->add('plainPassword',PasswordType::class,[
                 "attr" => [
                     "class" => "form-control",
                     "placeholder" => "************",

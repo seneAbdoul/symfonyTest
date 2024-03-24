@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 4, max: 25)]
-    protected ?string $password = null;
+    protected ?string $password = "password";
 
     #[ORM\Column(length: 25)]
     #[Assert\NotBlank()]
@@ -63,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $imageName = null;
 
-    protected ?string $plainPassword = "passer23";
+    protected ?string $plainPassword = null;
 
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]

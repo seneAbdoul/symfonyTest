@@ -7,14 +7,18 @@ use App\Form\ModuleType;
 use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+#use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ModuleController extends AbstractController
 {
     #[Route('/module/liste', name: 'app_module_liste', methods: ['GET','POST'])]
+  
     public function liste(ModuleRepository $moduleRepository,PaginatorInterface $paginator,
     Request $request,EntityManagerInterface $manager): Response
     {
@@ -27,6 +31,7 @@ class ModuleController extends AbstractController
          $form = $this->createForm(ModuleType::class, $module);
          $form->handleRequest($request);
          if($form ->isSubmitted() && $form->isValid()) {
+            $module = $form->getData();
             $manager ->persist($module);
             $manager ->flush();
             $this ->addFlash(

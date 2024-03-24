@@ -4,8 +4,7 @@
 
 {% block body %}
 
-  <div class="container mt-6 mr-16" style="width: 80%;">
-
+  <div class="container mt-6 mr-16" style="width: 80%">
          {% for message in app.flashes("success") %}
         <div class=" alert alert-success text-center" style="color:green">
              {{message}}  
@@ -13,7 +12,7 @@
         {% endfor %}
 
              <div class="titre d-flex justify-content-between">
-                <h1>Liste Des Classes</h1>
+                <h4>Liste Des Classes</h4>
                    <div class="btn ">
                     <a name="" id="" class="btn btn-info btn-sm mr-4" style="color:white" 
                     href="{{ path('app_classe_add')}}" role="button">+ Ajouter Classe</a>

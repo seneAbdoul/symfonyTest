@@ -9,7 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+#use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NiveauController extends AbstractController
@@ -28,6 +29,7 @@ class NiveauController extends AbstractController
         $form = $this->createForm(NiveauType::class, $niveau);
         $form->handleRequest($request);
        if ($form->isSubmitted() && $form->isValid()) {
+           $niveau = $form ->getData(); 
            $manager ->persist($niveau);
            $manager->flush();
            $this ->addFlash(
