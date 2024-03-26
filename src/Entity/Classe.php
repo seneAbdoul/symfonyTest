@@ -35,11 +35,20 @@ class Classe
     #[ORM\ManyToOne(inversedBy: 'classes')]
     private ?Niveau $niveau = null;
 
+    #[ORM\ManyToMany(targetEntity: Planification::class, mappedBy: 'classes')]
+    private Collection $planifications;
+
+    #[ORM\ManyToOne(inversedBy: 'classes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Cours $cour = null;
+
 
     public function __construct()
     {
         $this->yes = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
+        $this->planifications = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -151,4 +160,42 @@ class Classe
         return $this;
     }
 
+    /**
+     * @return Collection<int, Planification>
+     */
+    public function getPlanifications(): Collection
+    {
+        return $this->planifications;
+    }
+
+    public function addPlanification(Planification $planification): static
+    {
+        if (!$this->planifications->contains($planification)) {
+            $this->planifications->add($planification);
+            $planification->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlanification(Planification $planification): static
+    {
+        if ($this->planifications->removeElement($planification)) {
+            $planification->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function getCour(): ?Cours
+    {
+        return $this->cour;
+    }
+
+    public function setCour(?Cours $cour): static
+    {
+        $this->cour = $cour;
+
+        return $this;
+    }
 }

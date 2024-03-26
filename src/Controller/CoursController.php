@@ -32,4 +32,23 @@ class CoursController extends AbstractController
             'cours'=> $cours,
         ]);
     }
+    
+    #[Route('/cours/listeAbsence', name: 'app_cours_listeAbsence', methods: ['GET'])]
+    public function listeAbsence(Request $request,CoursRepository $coursRepository,PaginatorInterface $paginator): Response
+    {
+        $id = $request->query->getInt('id');
+        $cour = $coursRepository->find($id);
+        if($cour){
+            $absencess = $cour ->getAbsences()->toArray(); 
+        }
+        $absences = $paginator->paginate(
+            $absencess,
+            $request->query->getInt('page',1),
+            5,
+          );
+        return $this->render('cours/listeAbsence.html.twig',[
+            'absences'=> $absences,
+            'cour'=> $cour,
+        ]);
+    }
 }

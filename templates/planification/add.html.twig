@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}add!{% endblock %}
+
+ {% block body %}
+ <div class="container " style="width: 60%; margin-top: 3%;">
+    <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 4%;">Ajouter une Plainification</h3>
+    <div class="shadow p-3 mb-5 bg-body rounded">
+            {{ form_start(form) }}
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {{ form_label(form.nombre_heure) }}
+                                    {{ form_widget(form.nombre_heure) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.nombre_heure) }}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        {{ form_label(form.semestre) }}
+                                        {{ form_widget(form.semestre) }}
+                                        <div class="form-error">
+                                            {{ form_errors(form.semestre) }}
+                                        </div>
+                                        </div>
+                                </div>
+                           </div>
+
+                           <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {{ form_label(form.professeur) }}
+                                    {{ form_widget(form.professeur) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.professeur) }}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        {{ form_label(form.module) }}
+                                        {{ form_widget(form.module) }}
+                                        <div class="form-error">
+                                            {{ form_errors(form.module) }}
+                                        </div>
+                                        </div>
+                                </div>
+                           </div>
+
+                      <div class="row justify-content-center">
+                        <div class="col-12">
+                            <h3 style="margin-top: 2%;margin-bottom: 1%;">liste des classes</h3>
+                            <div class="form-group">
+                              {% for field in form.classes %}
+                                <div style="min-width: 10%;">
+                                    {{ form_widget(field) }}
+                                    {{ form_label(field) }}
+                                </div>
+                               {% endfor %}
+                             </div>
+                        </div>
+                     </div>
+
+                     <div class="form-group" style="margin-left: 78%;">
+                        {{ form_row(form.submit) }}
+                     </div>  
+
+            {{ form_end(form) }}
+        </div>
+    </div> 
+{% endblock %}

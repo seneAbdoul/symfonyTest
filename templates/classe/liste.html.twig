@@ -70,6 +70,9 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ classe.getFiliere.libelle  }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ classe.getNiveau.libelle  }}</td>
                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                              <a name="" id="" class="btn btn-info btn-sm" 
+                              style="color:white" href="{{ path('app_classe_classeListeEtudiant',{ id: classe.id })}}"
+                               role="button">liste Etudiant</a>
                                 <a href="{{ path('app_classe_edit',{ id: classe.id })}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
                                 <a href="{{ path('app_classe_delete',{ id: classe.id })}}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                             </td>

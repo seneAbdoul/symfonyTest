@@ -29,27 +29,6 @@
                         </div>
                     </div>
     
-                        <div class="row justify-content-center">
-                            <div class="col-6 mt-4">
-                                <div class="form-group ">
-                                        <label for="selectField" class="form-label"> Classes </label>
-                                          <select name="classe" class="form-select" id="selectField" >
-                                             {% for classe in classes %}
-                                                <option value="{{ classe.id }}">{{ classe.libelle }}</option>
-                                             {% endfor %}
-                                    </select>
-                               </div>
-                            </div>
-                            <div class="col-6" >
-                                <div class="form-group">
-                                   {{ form_label(form.module) }}
-                                   {{ form_widget(form.module) }}
-                                   <div class="form-error">
-                                       {{ form_errors(form.module) }}
-                                   </div>
-                               </div>
-                            </div>
-                        </div>
     
                         <div class="row justify-content-center">
                             <div class="col-6">

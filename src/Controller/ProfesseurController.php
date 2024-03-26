@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Classe;
+use App\Form\ProfType;
 use App\Entity\Professeur;
 use App\Form\ProfesseurType;
 use App\Service\SmsGenerate;
@@ -13,8 +14,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnneeScolaireRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 #use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -29,19 +30,20 @@ class ProfesseurController extends AbstractController
     {
         $professeur = new Professeur();
         $classeProfesseur = new ClasseProfesseur();
+
         $annee = $anneeScolaireRepository->findOneBy(['etat' => 'true']);
         $professeur->setRoles(["ROLE_PROFESSEUR"]);
         $classeId = $request->request->get('classe');
         $classe = $classeRepository->findOneBy(['id'=> $classeId]);
         $professeur->setCni($genarator->generateTruc());
 
-        $form = $this->createForm(ProfesseurType::class, $professeur);
+        $form = $this->createForm(ProfType::class, $professeur);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
-               $professeur = $form ->getData();
-               $manager ->persist($professeur);
-               $manager ->flush();
-
+                $professeur = $form ->getData();
+                $manager ->persist($professeur);
+                $manager ->flush();
+              
                $classeProfesseur ->setProfesseur($professeur);
                $classeProfesseur->setAnneeScolaire($annee);
                $classeProfesseur->setClasse($classe);
@@ -72,19 +74,25 @@ class ProfesseurController extends AbstractController
     }
 
     #[Route('/professeur/cour', name: 'app_professeur_cour', methods: ['GET','POST'])]
-    public function cour(PaginatorInterface $paginator,Request $request){
+    public function cour(){
         $professeur = $this->getUser();
         if ($professeur instanceof Professeur) {
-            $courss = $professeur->getCours()->toArray();
+            $classeProfss =  $professeur->getClasseProfesseurs()->toArray();
         }
-        $cours = $paginator ->paginate(
-            $courss,
-            $request->query->getInt('page',1),
-            5,
-        );
-       return $this->render('professeur/cours.html.twig',[
-               'cours'=> $cours
-       ]);
+        
+       // dd( $classeProfs);
+       return $this->render('professeur/cours.html.twig');
+    }
+
+    #[Route('/professeur/classe', name: 'app_professeur_classe', methods: ['GET','POST'])]
+    public function classe(){
+        $professeur = $this->getUser();
+        if ($professeur instanceof Professeur) {
+            $classeProfss =  $professeur->getClasseProfesseurs()->toArray();
+        }
+       
+       // dd( $classeProfs);
+       return $this->render('professeur/classes.html.twig');
     }
 
 }

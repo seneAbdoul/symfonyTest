@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Filiere; 
 use Faker\Factory;
 use Faker\Generator;
-
+  
 class FiliereFixtures extends Fixture
 {
     private Generator $faker;
@@ -17,7 +17,7 @@ class FiliereFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
       
-        for ($i=0; $i <10 ; $i++) { 
+        for ($i=0; $i <4 ; $i++) { 
             $filiere = new Filiere();
             $filiere->setLibelle($this->faker->word());
             $manager->persist($filiere);

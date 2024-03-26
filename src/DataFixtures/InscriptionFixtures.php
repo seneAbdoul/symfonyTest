@@ -11,12 +11,12 @@ class InscriptionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i=1; $i < 7; $i++) { 
+        for ($i=1; $i < 5; $i++) { 
              $inscription = new Inscription();
              $classe = $this->getReference("classe".$i);
              $etudiant = $this->getReference("etudiant".$i);
              $anneeScolaire = $this->getReference("anneeScolaire".$i);
-             for ($j=0; $j <6 ; $j++) { 
+             for ($j=1; $j <4 ; $j++) { 
              $inscription->setClasse($classe);
              $inscription->setEtudiant($etudiant);
              $inscription->setAnneeScolaire($anneeScolaire);

@@ -25,22 +25,15 @@ class Professeur extends User
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'professeur')]
     private Collection $classeProfesseurs;
 
-    #[ORM\ManyToOne(inversedBy: 'professeurs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Module $module = null;
-
-    #[ORM\OneToMany(targetEntity: Cours::class, mappedBy: 'professeur')]
-    private Collection $cours;
+    #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'professeur')]
+    private Collection $planifications;
 
     public function __construct()
     {
         parent::__construct();
-        $this->cours = new ArrayCollection();
+        $this->planifications = new ArrayCollection();
     }
 
-   
-
-   
     public function getGrade(): ?string
     {
         return $this->grade;
@@ -84,46 +77,33 @@ class Professeur extends User
         return $this;
     }
 
-    public function getModule(): ?Module
-    {
-        return $this->module;
-    }
-
-    public function setModule(?Module $module): static
-    {
-        $this->module = $module;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Cours>
+     * @return Collection<int, Planification>
      */
-    public function getCours(): Collection
+    public function getPlanifications(): Collection
     {
-        return $this->cours;
+        return $this->planifications;
     }
 
-    public function addCour(Cours $cour): static
+    public function addPlanification(Planification $planification): static
     {
-        if (!$this->cours->contains($cour)) {
-            $this->cours->add($cour);
-            $cour->setProfesseur($this);
+        if (!$this->planifications->contains($planification)) {
+            $this->planifications->add($planification);
+            $planification->setProfesseur($this);
         }
 
         return $this;
     }
 
-    public function removeCour(Cours $cour): static
+    public function removePlanification(Planification $planification): static
     {
-        if ($this->cours->removeElement($cour)) {
+        if ($this->planifications->removeElement($planification)) {
             // set the owning side to null (unless already changed)
-            if ($cour->getProfesseur() === $this) {
-                $cour->setProfesseur(null);
+            if ($planification->getProfesseur() === $this) {
+                $planification->setProfesseur(null);
             }
         }
 
         return $this;
     }
-
 }

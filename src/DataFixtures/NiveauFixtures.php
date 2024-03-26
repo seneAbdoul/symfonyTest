@@ -17,7 +17,7 @@ class NiveauFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i < 10 ; $i++) { 
+        for ($i=0; $i < 4 ; $i++) { 
             $niveau = new Niveau();
             $niveau->setLibelle($this->faker->word());
             $manager->persist($niveau);

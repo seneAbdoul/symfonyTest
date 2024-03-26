@@ -7,6 +7,7 @@ use App\Form\ClasseType;
 use App\Repository\ClasseRepository;
 use App\Repository\NiveauRepository;
 use App\Repository\FiliereRepository;
+use App\Repository\InscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -81,4 +82,26 @@ class ClasseController extends AbstractController
                  "classe a ete supprimer avec succes");
                  return $this->redirectToRoute("app_classe_liste");
     }
+    #[Route('/classe/classeListeEtudiant', name: 'app_classe_classeListeEtudiant', methods: ['GET'])]
+    public function listeEtudiant(Request $request,
+    ClasseRepository $classeRepository, PaginatorInterface $paginator): Response
+    {
+        $id = $request->query->get('id');
+        $classe = $classeRepository->find($id);
+
+        if ($classe) {
+            $etudiantss = $classe->getInscriptions()->toArray(); 
+        } 
+        $etudiants = $paginator->paginate(
+            $etudiantss,
+            $request->query->getInt('page',1),
+            5
+        ) ;
+
+        return $this->render('classe/classeListeEtudiant.html.twig',[
+            'etudiants'=> $etudiants,
+            'classe'=> $classe
+        ]);
+    }
+
 }

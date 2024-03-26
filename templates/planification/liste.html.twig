@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Etudiants inscrits{% endblock %}
+
+{% block body %}
+
+  <div class="container mt-6 mr-16" style="width: 80%;">
+         {% for message in app.flashes("success") %}
+        <div class=" alert alert-success text-center" style="color:green">
+             {{message}}  
+        </div> 
+        {% endfor %}
+
+             <div class="titre d-flex justify-content-between">
+                <h1>Liste des Planifications</h1>
+                   <div class="btn ">
+                    <a name="" id="" class="btn btn-info btn-sm mr-4" style="color:white" 
+                    href="{{ path('app_planification_add')}}" role="button">+ Nouveau</a>
+                   </div>
+             </div>
+
+             <div class="container1">
+                <div class="row ml-10">
+
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center">
+                    <label for="selectField" class="date mr-2"> Professeurs </label>
+                      <select class="form-select mr-2" id="selectField">
+                         {% for professeur in professeurs %}
+                            <option value="{{ professeur.id }}">{{ professeur.nom }}</option>
+                         {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center">
+                    <label for="selectField" class="date mr-2"> Modules </label>
+                      <select class="form-select mr-2" id="selectField">
+                         {% for module in modules %}
+                            <option value="{{ module.id }}">{{ module.libelle }}</option>
+                         {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 align-self-end">
+                    <button type="button" class="btn" style="background-color: rgb(5, 68, 104);color:white">
+                      <i class="fas fa-search"></i> Rechercher
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+          
+
+
+    <div class="row d-flex justify-content-center" style="width: 100%;">
+        <div class="col-8 mt-4" style="width: 100%;">
+            <div class="overflow-x-auto " style="width: 100%;">
+                <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">id</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Professeur</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Classe</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Module</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nombre_heure</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nombre_fait</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nombre_restant</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for planification in planifications %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.professeur.nom }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                               <a name="" id="" class="btn btn-info btn-sm" 
+                                style="color:white" href="{{ path('app_planification_detail',{ id: planification.id })}}"
+                                 role="button">Voir Classes</a>
+                            </td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ planification.module.libelle  }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ planification.getNombreHeure }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ planification.getHeureFait }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ (planification.getNombreHeure) - (planification.getHeureFait) }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                                <a name="" id="" class="btn btn-info btn-sm" style="color:white" 
+                                href="#" role="button"> + New Seance</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- Affichage de la pagination -->
+                <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
+                    {{ knp_pagination_render(planifications) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+  </div>
+
+
+{% endblock %}

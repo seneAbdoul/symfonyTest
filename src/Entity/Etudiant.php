@@ -34,10 +34,12 @@ class Etudiant extends User
     #[ORM\OneToMany(targetEntity: Absence::class, mappedBy: 'etudiant')]
     private Collection $absences;
 
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
         $this->absences = new ArrayCollection();
+     
     }
 
     public function getMatricule(): ?string
@@ -123,4 +125,5 @@ class Etudiant extends User
 
         return $this;
     }
+
 }

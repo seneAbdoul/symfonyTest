@@ -16,17 +16,13 @@ class CourFixtures extends Fixture implements DependentFixtureInterface
           $this->faker = Factory::create('fr_FR');
     }
     public function load(ObjectManager $manager): void
-    {
-        for ($i=0; $i <10 ; $i++) { 
-            $professeur = $this->getReference('professeur'.$i);
-          for ($j=0; $j < 10; $j++) { 
+    { 
+          for ($j=0; $j < 4; $j++) { 
               $cour = new Cours();
               $cour->setLibelle($this ->faker->word());
-              $cour->setProfesseur($professeur);
               $manager->persist($cour);
               $this->setReference('cour'.$j, $cour);
           }
-      };
         $manager->flush();
     }
 

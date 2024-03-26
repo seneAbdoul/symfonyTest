@@ -99,8 +99,33 @@ class EtudiantController extends AbstractController
     }
 
     #[Route('/etudiant/cour', name: 'app_etudiant_cour', methods: ['GET','POST'])]
-    public function cour(PaginatorInterface $paginator,Request $request){
-
+    public function cour(){
+        $etudiant = $this->getUser();
+        if ($etudiant instanceof Etudiant) {
+           //$MesCourss = $etudiant->getEtudiantCours()->toArray();
+        }
+       
+        //dd($MesCours);
        return $this->render('etudiant/cours.html.twig');
     }
+
+    #[Route('/etudiant/listeAbsence', name: 'app_etudiant_listeAbsence', methods: ['GET','POST'])]
+    public function listeAbsence(Request $request,
+    EtudiantRepository $etudiantRepository,PaginatorInterface $paginator){
+        $id = $request->query->getInt('id');
+        $etudiant = $etudiantRepository->find($id);
+        if($etudiant){
+            $absencess = $etudiant->getAbsences()->toArray();
+        }
+        $absences = $paginator ->paginate(
+            $absencess,
+            $request->query->getInt('page',1),
+            5,
+        );
+       return $this->render('etudiant/listeAbsence.html.twig',[
+        'absences'=> $absences,
+        'etudiant'=> $etudiant
+       ]);
+    }
+
 }

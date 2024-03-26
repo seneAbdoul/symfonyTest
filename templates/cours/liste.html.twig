@@ -54,22 +54,19 @@
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">identifiant</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">libelle</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Professeur</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Classe</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         {% for cour in cours %}
-                     
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ cour.id}}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ cour.libelle }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.getProfesseur.getNom() }}  {{ cour.getProfesseur.getPrenom() }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.getProfesseur.getModule.libelle }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap flex justify-around">
-                            <a name="" id="" class="btn btn-info btn-sm" style="color:white" href="#" role="button"><i class="fa fa-edit "></i> Absences</a>
-                            <a name="" id="" class="btn btn-sm" style="background-color: rgb(5, 68, 104);color:white" href="#" role="button"><i class="fa fa-trash" aria-hidden="true"></i>Annuler</a>
+                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                            <a name="" id="" class="btn btn-info btn-sm" 
+                              style="color:white" href="{{ path('app_cours_listeAbsence',{ id: cour.id })}}" role="button">Voir Absences</a>
+                             <a href=""><span class="icon"><i class="fas fa-pen"></i></span></a>
+                              <a href=""><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                             </td>
                         </tr>
                         {% endfor %}

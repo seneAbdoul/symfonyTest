@@ -15,9 +15,10 @@ class AnneeScolaireFixtures extends Fixture
     public function __construct(){
           $this->faker = Factory::create('fr_FR');
     }
+    
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i < 10 ; $i++) { 
+        for ($i=0; $i < 5 ; $i++) { 
             $anneeScolaire = new AnneeScolaire();
             $first = $this->faker->numberBetween(2000, 2025) ;
             $annee= $first."-".($first+1);
@@ -28,4 +29,5 @@ class AnneeScolaireFixtures extends Fixture
         }
         $manager->flush();
     }
+    
 }

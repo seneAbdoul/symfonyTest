@@ -8,7 +8,7 @@ use Faker\Generator;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-
+  
 class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
@@ -17,16 +17,16 @@ class ProfesseurFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i < 10 ; $i++){
+        for ($i=0; $i < 4 ; $i++){
                 $module = $this->getReference("module".$i);
-                for ($j= 0; $j < 10; $j++){
+                for ($j= 0; $j < 4; $j++){
                     $professeur = new Professeur();
                     $professeur->setGrade($this->faker->word());
                     $professeur->setCni($this->faker->numerify('#########'));
                     $professeur->setNom($this->faker->lastName());
                     $professeur->setPrenom($this->faker->firstName());
                     $professeur->setEmail($this->faker->email());
-                    $professeur->setModule($module);
+                    //$professeur->setModule($module);
                     $professeur->setPlainPassword("passer");
                     $professeur->setRoles(["ROLE_PROFESSEUR"]);
                     $manager->persist($professeur);

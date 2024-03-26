@@ -10,8 +10,6 @@ use App\Entity\Etudiant;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-
-
 class EtudiantFixtures extends Fixture 
 
 { 
@@ -21,7 +19,7 @@ class EtudiantFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i <=10; $i++) {
+        for ($i = 0; $i <=4; $i++) {
             $etudiant = new Etudiant();
             $etudiant->setMatricule($this->faker->numerify('#########'));
             $etudiant->setTuteur($this->faker->firstName()." ".$this->faker->lastName());
@@ -37,3 +35,4 @@ class EtudiantFixtures extends Fixture
     }
     
 }
+

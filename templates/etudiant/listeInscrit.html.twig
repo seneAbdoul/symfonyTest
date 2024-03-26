@@ -69,8 +69,10 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getEtudiant.prenom  }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ inscription.getClasse.libelle  }}</td>
                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
-                            <a name="" id="" class="btn btn-info btn-sm" style="color:white" href="#" role="button"><i class="fa fa-edit "></i> Absences</a>
-                            <a name="" id="" class="btn btn-sm" style="background-color: rgb(5, 68, 104);color:white" href="#" role="button"><i class="fa fa-trash" aria-hidden="true"></i>Annuler</a>
+                            <a name="" id="" class="btn btn-info btn-sm" style="color:white" 
+                            href="{{ path('app_etudiant_listeAbsence',{id:inscription.getEtudiant.id})}}" role="button">Voir ses Absences</a>
+                            <a name="" id="" class="btn btn-sm" style="background-color: rgb(5, 68, 104);color:white"
+                             href="#" role="button"><i class="fa fa-trash" aria-hidden="true"></i>Annuler</a>
                             </td>
                         </tr>
                         {% endfor %}

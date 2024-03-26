@@ -17,10 +17,10 @@ class AbsenceFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i <10 ; $i++) { 
+        for ($i=0; $i <4 ; $i++) { 
             $cour = $this->getReference('cour'.$i);
             $etudiant = $this->getReference('etudiant'.$i);
-          for ($j=0; $j < 10; $j++) { 
+          for ($j=0; $j < 4; $j++) { 
               $absence = new Absence();
               $absence->setCour($cour);
               $absence->setEtudiant($etudiant);

@@ -24,7 +24,7 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ absence.id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ absence.dateAbsence|date('d/m/Y') }}</td>
-                             <td class="px-6 py-4 whitespace-nowrap">{{ absence.cour.id }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ absence.cour.libelle }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

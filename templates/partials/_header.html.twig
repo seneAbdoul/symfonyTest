@@ -172,7 +172,20 @@
                                         </button>
                                         <ul class="absolute hidden text-gray-900 pt-1 group-hover:block" style="width: 180%;">
                                             <li><a href="{{path('app_professeur_cour')}}" class="bg-white hover:bg-blue-500 py-2 px-4 block whitespace-no-wrap">Mes Cours</a></li>
-                                            <li><a href="#" class="bg-white hover:bg-blue-500 py-2 px-4 block whitespace-no-wrap">Mes Classes</a></li>
+                                            <li><a href="{{path('app_professeur_classe')}}" class="bg-white hover:bg-blue-500 py-2 px-4 block whitespace-no-wrap">Mes Classes</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="relative group">
+                                        <button class="text-white hover:text-gray-300 focus:outline-none flex items-center">
+                                            Planifications
+                                            <svg class="h-4 w-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414zM7 17a1 1 0 100-2 1 1 0 000 2zM13 17a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <ul class="absolute hidden text-gray-900 pt-1 group-hover:block" style="width: 180%;">
+                                            <li><a href="{{path('app_planification_add')}}" class="bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap">Ajouter</a></li>
+                                            <li><a href="{{path('app_planification_liste')}}" class="bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap">Lister</a></li>
                                         </ul>
                                     </li>
 

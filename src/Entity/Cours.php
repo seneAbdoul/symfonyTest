@@ -25,12 +25,16 @@ class Cours
     #[ORM\OneToMany(targetEntity: Absence::class, mappedBy: 'cour')]
     private Collection $absences;
 
+    #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'cour')]
+    private Collection $classes;
+
     #[ORM\ManyToOne(inversedBy: 'cours')]
-    private ?Professeur $professeur = null;
 
     public function __construct()
     {
         $this->absences = new ArrayCollection();
+        $this->classes = new ArrayCollection();
+     
     }
 
     public function getId(): ?int
@@ -80,15 +84,34 @@ class Cours
         return $this;
     }
 
-    public function getProfesseur(): ?Professeur
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
     {
-        return $this->professeur;
+        return $this->classes;
     }
 
-    public function setProfesseur(?Professeur $professeur): static
+    public function addClass(Classe $class): static
     {
-        $this->professeur = $professeur;
+        if (!$this->classes->contains($class)) {
+            $this->classes->add($class);
+            $class->setCour($this);
+        }
 
         return $this;
     }
+
+    public function removeClass(Classe $class): static
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getCour() === $this) {
+                $class->setCour(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

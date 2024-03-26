@@ -24,17 +24,15 @@ class Module
     #[Assert\NotBlank()]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(targetEntity: Professeur::class, mappedBy: 'module')]
-    private Collection $professeurs;
+    #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'module')]
+    private Collection $planifications;
 
     public function __construct()
     {
-        $this->professeurs = new ArrayCollection();
+        $this->planifications = new ArrayCollection();
     }
 
-   
-
-   
+  
 
     public function getId(): ?int
     {
@@ -54,39 +52,33 @@ class Module
     }
 
     /**
-     * @return Collection<int, Professeur>
+     * @return Collection<int, Planification>
      */
-    public function getProfesseurs(): Collection
+    public function getPlanifications(): Collection
     {
-        return $this->professeurs;
+        return $this->planifications;
     }
 
-    public function addProfesseur(Professeur $professeur): static
+    public function addPlanification(Planification $planification): static
     {
-        if (!$this->professeurs->contains($professeur)) {
-            $this->professeurs->add($professeur);
-            $professeur->setModule($this);
+        if (!$this->planifications->contains($planification)) {
+            $this->planifications->add($planification);
+            $planification->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeProfesseur(Professeur $professeur): static
+    public function removePlanification(Planification $planification): static
     {
-        if ($this->professeurs->removeElement($professeur)) {
+        if ($this->planifications->removeElement($planification)) {
             // set the owning side to null (unless already changed)
-            if ($professeur->getModule() === $this) {
-                $professeur->setModule(null);
+            if ($planification->getModule() === $this) {
+                $planification->setModule(null);
             }
         }
 
         return $this;
     }
-
- 
-
-
-
- 
 
 }

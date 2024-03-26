@@ -13,25 +13,28 @@
                 <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">identifiant</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">identifiant Cours</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Libelle Cours</th>
+                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Filiere</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Niveau</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Module</th>
-
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {% for cour in cours %}
+                        {% for  classeProf in classeProfs %}
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ cour.libelle}}</td>
-                             <td class="px-6 py-4 whitespace-nowrap">{{ cour.professeur.nom}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ classeProf.cour.id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ classeProf.cour.libelle}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ classeProf.classe.filiere.libelle}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ classeProf.classe.niveau.libelle}}</td>
+                             <td class="px-6 py-4 whitespace-nowrap">{{ classeProf.professeur.module.libelle}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 <!-- Affichage de la pagination -->
                 <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
-                    {{ knp_pagination_render(cours) }}
+                    {{ knp_pagination_render(classeProfs) }}
                 </div>
             </div>
         </div>
