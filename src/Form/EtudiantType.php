@@ -30,7 +30,7 @@ class EtudiantType extends AbstractType
                     "class" => "form-control",
                     "placeholder" => "senecheikh@gmail.com",
                     "maxlength" => "180",
-                    "minlenght" => "2",
+                    "minlenght" => "5",
                 ],
                 "label" => "Adresse Mail",
                 "label_attr" => [
@@ -41,7 +41,7 @@ class EtudiantType extends AbstractType
                 "constraints"=> [
                     new Assert\NotBlank(),
                     new Assert\Email(),
-                    new Assert\Length(["max"=> "180","min"=> "2"]),
+                    new Assert\Length(["max"=> "180","min"=> "5"]),
                 ]
             ])
             ->add('plainPassword',PasswordType::class,[
@@ -57,7 +57,7 @@ class EtudiantType extends AbstractType
                     ],
                 "constraints"=> [
                     new Assert\NotBlank(),
-                    new Assert\Length(["max"=> 25,"min"=> "4"]),
+                    new Assert\Length(["max"=> 25,"min"=> "3"]),
                 ]
             ])
             ->add('nom', TextType::class, [
@@ -115,6 +115,9 @@ class EtudiantType extends AbstractType
                         'class' => 'form-label mt-4'
                     ],
                     'required' => false,
+                    "constraints"=> [
+                        new Assert\NotBlank()
+                    ]
                 ])
     
                 ->add('submit', SubmitType::class, [

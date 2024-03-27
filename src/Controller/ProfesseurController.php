@@ -61,7 +61,8 @@ class ProfesseurController extends AbstractController
     }
 
     #[Route('/professeur/liste', name: 'app_professeur_liste',methods: ['GET'])]
-    public function index1(ProfesseurRepository $professeurRepository,PaginatorInterface $paginator,Request $request): Response
+    public function index1(ProfesseurRepository $professeurRepository,
+     PaginatorInterface $paginator,Request $request): Response
     {
         $professeurs = $paginator->paginate(
             $professeurRepository->findAll(), 
@@ -74,25 +75,29 @@ class ProfesseurController extends AbstractController
     }
 
     #[Route('/professeur/cour', name: 'app_professeur_cour', methods: ['GET','POST'])]
-    public function cour(){
+    public function cour(Request $request,PaginatorInterface $paginator){
         $professeur = $this->getUser();
         if ($professeur instanceof Professeur) {
-            $classeProfss =  $professeur->getClasseProfesseurs()->toArray();
-        }
-        
-       // dd( $classeProfs);
-       return $this->render('professeur/cours.html.twig');
-    }
-
-    #[Route('/professeur/classe', name: 'app_professeur_classe', methods: ['GET','POST'])]
-    public function classe(){
-        $professeur = $this->getUser();
-        if ($professeur instanceof Professeur) {
-            $classeProfss =  $professeur->getClasseProfesseurs()->toArray();
-        }
-       
-       // dd( $classeProfs);
-       return $this->render('professeur/classes.html.twig');
+            $planifications =  $professeur->getPlanifications()->toArray();
+        } 
+        if ($planifications) {
+            foreach ($planifications as $value) {
+                $classess[] = $value->getClasses()->toArray();
+              }
+        } 
+         // dd($planifications); 
+         // dd($classess);
+        //dd($professeur);
+        $classes = $paginator->paginate(
+            $classess, 
+            $request->query->getInt('page', 1), 
+            5 
+         ); 
+          return $this->render('professeur/cours.html.twig',[
+            'planifications'=> $planifications,
+            'classes'=> $classes,
+            'professeurConnect'=> $professeur
+          ]);
     }
 
 }

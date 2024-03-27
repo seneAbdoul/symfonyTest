@@ -3,8 +3,8 @@
 {% block title %}add!{% endblock %}
 
  {% block body %}
- <div class="container " style="width: 60%; margin-top: 3%;">
-    <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 4%;">Ajouter une Plainification</h3>
+ <div class="container " style="width: 60%; margin-top: 1%;">
+    <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 2%;">Ajouter une Plainification</h3>
     <div class="shadow p-3 mb-5 bg-body rounded">
             {{ form_start(form) }}
                         <div class="row justify-content-center">
@@ -27,6 +27,18 @@
                                         </div>
                                 </div>
                            </div>
+
+                           <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form_label(form.cours) }}
+                                    {{ form_widget(form.cours) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.cours) }}
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
 
                            <div class="row justify-content-center">
                             <div class="col-6">

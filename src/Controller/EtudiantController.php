@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 #use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Length;
 
 class EtudiantController extends AbstractController
 {
@@ -94,21 +95,38 @@ class EtudiantController extends AbstractController
             5,
         );
        return $this->render('etudiant/absence.html.twig',[
-               'absences'=> $absences
+               'absences'=> $absences,
+               'etudiant'=> $etudiant
        ]);
     }
 
     #[Route('/etudiant/cour', name: 'app_etudiant_cour', methods: ['GET','POST'])]
-    public function cour(){
+    public function cour(Request $request,PaginatorInterface $paginator){
         $etudiant = $this->getUser();
-        if ($etudiant instanceof Etudiant) {
-           //$MesCourss = $etudiant->getEtudiantCours()->toArray();
-        }
-       
-        //dd($MesCours);
-       return $this->render('etudiant/cours.html.twig');
-    }
+        $mesCours = [];
+    
+        if ($etudiant instanceof Etudiant){
+            $inscriptions = $etudiant->getInscriptions();
 
+            foreach ($inscriptions as $inscription) {
+                $planifications = $inscription->getClasse()->getPlanifications()->toArray(); 
+    
+                foreach ($planifications as $planification) {
+                    $mesCourss[] = $planification->getCours();
+                }
+            }
+        } 
+        //dd($mesCours);
+        $mesCours = $paginator ->paginate(
+            $mesCourss,
+            $request->query->getInt('page',1),
+            5,
+        );
+        return $this->render('etudiant/cours.html.twig', [
+            'mesCours' => $mesCours
+        ]);
+    }
+    
     #[Route('/etudiant/listeAbsence', name: 'app_etudiant_listeAbsence', methods: ['GET','POST'])]
     public function listeAbsence(Request $request,
     EtudiantRepository $etudiantRepository,PaginatorInterface $paginator){
@@ -127,5 +145,4 @@ class EtudiantController extends AbstractController
         'etudiant'=> $etudiant
        ]);
     }
-
 }

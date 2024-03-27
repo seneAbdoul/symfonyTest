@@ -15,20 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AbsenceController extends AbstractController
 {
     #[Route('/absence/add', name: 'app_absence_add', methods: ['GET','POST'])]
-    public function add(Request $request,EntityManagerInterface $manager,ClasseRepository $classeRepository): Response
+    public function add(): Response
     {
-        $idclase = $request->query->get('id');
-        $classe = $classeRepository ->find($idclase);
-        $absence = new Absence();
-        $form = $this ->createForm(AbsenceType::class, $absence);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-           
-        }
-        return $this->render('absence/add.html.twig',[
-            'form'=> $form->createView(),
-        ]);
+        return $this->render('absence/add.html.twig');
        
     }
   

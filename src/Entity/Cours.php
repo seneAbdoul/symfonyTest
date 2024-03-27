@@ -19,21 +19,25 @@ class Cours
 
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(targetEntity: Absence::class, mappedBy: 'cour')]
     private Collection $absences;
 
-    #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'cour')]
-    private Collection $classes;
+    #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'cours')]
+    private Collection $planifications;
+
+    #[ORM\Column(length: 25)]
+    private ?string $etat = null;
+
+  
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
 
     public function __construct()
     {
         $this->absences = new ArrayCollection();
-        $this->classes = new ArrayCollection();
+        $this->planifications = new ArrayCollection();
      
     }
 
@@ -85,32 +89,44 @@ class Cours
     }
 
     /**
-     * @return Collection<int, Classe>
+     * @return Collection<int, Planification>
      */
-    public function getClasses(): Collection
+    public function getPlanifications(): Collection
     {
-        return $this->classes;
+        return $this->planifications;
     }
 
-    public function addClass(Classe $class): static
+    public function addPlanification(Planification $planification): static
     {
-        if (!$this->classes->contains($class)) {
-            $this->classes->add($class);
-            $class->setCour($this);
+        if (!$this->planifications->contains($planification)) {
+            $this->planifications->add($planification);
+            $planification->setCours($this);
         }
 
         return $this;
     }
 
-    public function removeClass(Classe $class): static
+    public function removePlanification(Planification $planification): static
     {
-        if ($this->classes->removeElement($class)) {
+        if ($this->planifications->removeElement($planification)) {
             // set the owning side to null (unless already changed)
-            if ($class->getCour() === $this) {
-                $class->setCour(null);
+            if ($planification->getCours() === $this) {
+                $planification->setCours(null);
             }
         }
 
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): static
+    {
+        $this->etat = $etat;
+        
         return $this;
     }
 

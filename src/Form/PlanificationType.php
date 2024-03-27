@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Cours;
 use App\Entity\Classe;
 use App\Entity\Module;
 use App\Entity\Professeur;
@@ -9,8 +10,8 @@ use App\Entity\Planification;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -70,6 +71,17 @@ class PlanificationType extends AbstractType
                     "class" => "form-select",
                 ],
                 "label" => "modules",
+                "label_attr" => [
+                   "class"=> "form-label mt-4"
+                ],
+            ])
+            ->add('cours', EntityType::class, [
+                'class' => Cours::class,
+                'choice_label' => 'libelle',
+                "attr" => [
+                    "class" => "form-select",
+                ],
+                "label" => "Cours",
                 "label_attr" => [
                    "class"=> "form-label mt-4"
                 ],

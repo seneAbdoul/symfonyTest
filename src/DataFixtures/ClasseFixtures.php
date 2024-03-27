@@ -29,7 +29,7 @@ class ClasseFixtures extends Fixture implements DependentFixtureInterface
                 $classe->setLibelle($this->faker->word());
                 $classe->setFiliere($filiere);
                 $classe->setNiveau($niveau);
-                $classe->setCour($cour);
+                //$classe->setCour($cour);
                 $manager->persist($classe);
                 $this->setReference('classe'.$j, $classe);
             }

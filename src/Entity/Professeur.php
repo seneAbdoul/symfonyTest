@@ -14,12 +14,12 @@ class Professeur extends User
 {
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
+    
     private ?string $grade = null;
 
     #[ORM\Column(length: 30)]
     #[Assert\Length(min: 2, max: 30)]
-    #[Assert\NotBlank()]
+    
     private ?string $Cni = null;
 
     #[ORM\OneToMany(targetEntity: ClasseProfesseur::class, mappedBy: 'professeur')]

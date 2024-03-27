@@ -16,25 +16,9 @@ class AbsenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('etudiant', EntityType::class, [
-            'class' => Etudiant::class,
-            'label' => 'Les etudiants',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
-                'choice_label' => 'nom',
-                'multiple' => true,
-                'expanded' => true,
-        ])
-        ->add('submit', SubmitType::class, [
-            'attr' => [
-                'class' => 'btn btn-primary mt-4',
-                'style' => 'background-color: rgb(5, 68, 104)'
-            ],
-            'label' => 'Ajouter Absence'
-        ])
+        ->add('etudiant')
+        ->add('submit')
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

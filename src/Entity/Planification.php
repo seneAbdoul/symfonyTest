@@ -49,6 +49,9 @@ class Planification
     #[ORM\Column]
     private ?int $heure_fait = null;
 
+    #[ORM\ManyToOne(inversedBy: 'planifications')]
+    private ?Cours $cours = null;
+
    
 
     
@@ -183,6 +186,18 @@ class Planification
     public function setHeureFait(int $heure_fait): static
     {
         $this->heure_fait = $heure_fait;
+
+        return $this;
+    }
+
+    public function getCours(): ?Cours
+    {
+        return $this->cours;
+    }
+
+    public function setCours(?Cours $cours): static
+    {
+        $this->cours = $cours;
 
         return $this;
     }

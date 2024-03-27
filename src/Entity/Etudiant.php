@@ -25,7 +25,6 @@ class Etudiant extends User
 
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $tuteur = null;
 
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'etudiant')]

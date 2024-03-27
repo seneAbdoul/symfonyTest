@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Professeur!{% endblock %}
+{% block title %}Hello ProfesseurController!{% endblock %}
 
 {% block body %}
-        <div class="container " style="width: 60%; ;margin-top: 1%">
-            <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 4%;">Ajouter Professeur</h3>
+        <div class="container " style="width: 60%; ;margin-top: 3%">
+            <h3 class="text-center " style="color:rgb(5, 68, 104);margin-bottom: 4%;">Faire une Inscription</h3>
                 <div class="shadow p-3 mb-5 bg-body rounded">
                     {{ form_start(form) }}
-    
                 <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="form-group" >
@@ -30,17 +29,17 @@
                     </div>
     
                         <div class="row justify-content-center">
-                            <div class="col-12 mt-4">
-                                <div class="form-group ">
-                                        <label for="selectField" class="form-label"> Classes </label>
-                                          <select name="classe" class="form-select" id="selectField" >
-                                             {% for classe in classes %}
-                                                <option value="{{ classe.id }}">{{ classe.libelle }}</option>
-                                             {% endfor %}
-                                    </select>
-                               </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form_label(form.acces) }}
+                                    {{ form_widget(form.acces) }}
+                                    <div class="form-error">
+                                        {{ form_errors(form.acces) }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                           
+                          </div>
     
                         <div class="row justify-content-center">
                             <div class="col-6">
@@ -62,29 +61,23 @@
                                         </div>
                                 </div>
                            </div>
-    
-                           <div class="row justify-content-center">
+                           <div class="row justify-content-center ">
                             <div class="col-6">
-                                <div class="form-group">
-                                    {{ form_label(form.grade) }}
-                                    {{ form_widget(form.grade) }}
-                                    <div class="form-error">
-                                        {{ form_errors(form.grade) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group"style="width: 30%;">
-                                  {{ form_row(form.imageFile) }}
-                                </div>
+                              <div class="form-group"style="width: 30%;">
+                                {{ form_row(form.imageFile) }}
                               </div>
-                           </div>
-    
-                           <div class="form-group" style="margin-left: 80%;">
-                            {{ form_row(form.submit) }}
-                          </div>   
-                    {{ form_end(form) }}   
-        </div>
-      </div>     
-{% endblock %}
+                            </div>
 
+                              <div class="col-6">
+                                <div class="form-group" style="margin-top: 5%;">
+                                    <div class="form-group" style="margin-left: 57%;">
+                                        {{ form_row(form.submit) }}
+                                      </div>
+                                </div>
+                                </div>
+
+                              </div>      
+                    {{ form_end(form) }}     
+        </div>
+      </div>  
+{% endblock %}

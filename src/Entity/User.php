@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name:'discr', type: 'string')]
-#[ORM\DiscriminatorMap(['etudiant' => Etudiant::class,'professeur' => Professeur::class])]
+#[ORM\DiscriminatorMap(['etudiant' => Etudiant::class,'professeur' => Professeur::class,'responsable' => Responsable::class])]
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -28,7 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\Email()]
     #[Assert\Length(min: 2, max: 180)]
     protected ?string $email = null;
 
@@ -43,17 +42,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
     #[Assert\Length(min: 4, max: 25)]
     protected ?string $password = "password";
 
     #[ORM\Column(length: 25)]
-    #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 25)]
     protected ?string $nom = null;
 
     #[ORM\Column(length: 25)]
-    #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 25)]
     protected ?string $prenom = null;
 

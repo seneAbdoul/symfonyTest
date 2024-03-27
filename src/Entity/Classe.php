@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ClasseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClasseRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ClasseRepository::class)]
+#[UniqueEntity('libelle')]
 class Classe
 {
     #[ORM\Id]
@@ -19,7 +21,6 @@ class Classe
 
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $libelle = null;
 
     #[ORM\ManyToOne(inversedBy: 'classes')]
@@ -37,11 +38,6 @@ class Classe
 
     #[ORM\ManyToMany(targetEntity: Planification::class, mappedBy: 'classes')]
     private Collection $planifications;
-
-    #[ORM\ManyToOne(inversedBy: 'classes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Cours $cour = null;
-
 
     public function __construct()
     {
@@ -187,15 +183,4 @@ class Classe
         return $this;
     }
 
-    public function getCour(): ?Cours
-    {
-        return $this->cour;
-    }
-
-    public function setCour(?Cours $cour): static
-    {
-        $this->cour = $cour;
-
-        return $this;
-    }
 }

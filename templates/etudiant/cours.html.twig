@@ -18,17 +18,17 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {% for MesCour in MesCours %}
+                        {% for mesCour in mesCours %}
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ MesCour.cour.id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ MesCour.cour.libelle }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ mesCour.id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ mesCour.libelle }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 <!-- Affichage de la pagination -->
                 <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
-                    {{ knp_pagination_render(MesCours) }}
+                    {{ knp_pagination_render(mesCours) }}
                 </div>
             </div>
         </div>
