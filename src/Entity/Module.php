@@ -21,7 +21,6 @@ class Module
 
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'module')]
@@ -31,8 +30,6 @@ class Module
     {
         $this->planifications = new ArrayCollection();
     }
-
-  
 
     public function getId(): ?int
     {
@@ -80,5 +77,6 @@ class Module
 
         return $this;
     }
+
 
 }

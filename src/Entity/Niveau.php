@@ -19,7 +19,6 @@ class Niveau
 
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'niveau')]

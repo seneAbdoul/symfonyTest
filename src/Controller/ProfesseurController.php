@@ -73,31 +73,31 @@ class ProfesseurController extends AbstractController
             'professeurs'=> $professeurs
         ]);
     }
-
-    #[Route('/professeur/cour', name: 'app_professeur_cour', methods: ['GET','POST'])]
+    #[Route('/professeur/cour', name: 'app_professeur_cour',methods: ['GET'])]
     public function cour(Request $request,PaginatorInterface $paginator){
-        $professeur = $this->getUser();
-        if ($professeur instanceof Professeur) {
-            $planifications =  $professeur->getPlanifications()->toArray();
-        } 
+        $professeur = $this ->getUser();
+        if($professeur instanceof Professeur){
+            $planifications = $professeur ->getPlanifications()->toArray();
+        }
+        $classes = [];
         if ($planifications) {
             foreach ($planifications as $value) {
-                $classess[] = $value->getClasses()->toArray();
-              }
-        } 
-         // dd($planifications); 
-         // dd($classess);
-        //dd($professeur);
+                  $classess[] = $value ->getClasses()->toArray();
+            }
+        }
+       // dd($classes);
         $classes = $paginator->paginate(
             $classess, 
             $request->query->getInt('page', 1), 
             5 
-         ); 
-          return $this->render('professeur/cours.html.twig',[
-            'planifications'=> $planifications,
-            'classes'=> $classes,
-            'professeurConnect'=> $professeur
-          ]);
+        );
+        return $this->render('professeur/cour.html.twig',[
+            'professeur'=> $professeur,
+            'planifications' => $planifications, 
+            'classes' => $classes  
+        ]);
     }
+
+
 
 }

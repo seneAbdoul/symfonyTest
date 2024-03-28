@@ -39,12 +39,17 @@ class Classe
     #[ORM\ManyToMany(targetEntity: Planification::class, mappedBy: 'classes')]
     private Collection $planifications;
 
+    #[ORM\OneToMany(targetEntity: ClassePlanification::class, mappedBy: 'classe')]
+    private Collection $classePlanifications;
+
+
     public function __construct()
     {
         $this->yes = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
         $this->planifications = new ArrayCollection();
-       
+        $this->classePlanifications = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -182,5 +187,37 @@ class Classe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ClassePlanification>
+     */
+    public function getClassePlanifications(): Collection
+    {
+        return $this->classePlanifications;
+    }
+
+    public function addClassePlanification(ClassePlanification $classePlanification): static
+    {
+        if (!$this->classePlanifications->contains($classePlanification)) {
+            $this->classePlanifications->add($classePlanification);
+            $classePlanification->setClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassePlanification(ClassePlanification $classePlanification): static
+    {
+        if ($this->classePlanifications->removeElement($classePlanification)) {
+            // set the owning side to null (unless already changed)
+            if ($classePlanification->getClasse() === $this) {
+                $classePlanification->setClasse(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\PlanificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,24 +17,9 @@ class Planification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $datePlanification = null;
-
-    #[ORM\Column(type: Types::TIME_IMMUTABLE ,nullable: true)]
-    private ?\DateTimeImmutable $heure_debut = null;
-
-    #[ORM\Column(type: Types::TIME_IMMUTABLE,nullable: true)]
-    private ?\DateTimeImmutable $heure_fin = null;
-
-    #[ORM\Column]
-    #[Assert\NotNull()]
-    private ?int $nombre_heure = null;
-
     #[ORM\Column(length: 25)]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\NotBlank()]
     private ?string $semestre = null;
-
 
     #[ORM\ManyToOne(inversedBy: 'planifications')]
     private ?Module $module = null;
@@ -46,74 +30,26 @@ class Planification
     #[ORM\ManyToMany(targetEntity: Classe::class, inversedBy: 'planifications')]
     private Collection $classes;
 
-    #[ORM\Column]
-    private ?int $heure_fait = null;
+    #[ORM\OneToMany(targetEntity: ClassePlanification::class, mappedBy: 'planification')]
+    private Collection $classePlanifications;
 
     #[ORM\ManyToOne(inversedBy: 'planifications')]
-    private ?Cours $cours = null;
+    private ?Cours $cour = null;
 
-   
+    #[ORM\Column]
+    private ?int $nombre_heure = null;
 
-    
+
     public function __construct()
     {
-        $this->datePlanification = new \DateTimeImmutable;
-        $this->heure_debut = new \DateTimeImmutable;
-        $this->heure_fin = new \DateTimeImmutable;
         $this->classes = new ArrayCollection();
+        $this->classePlanifications = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDatePlanification(): ?\DateTimeImmutable
-    {
-        return $this->datePlanification;
-    }
-
-    public function setDatePlanification(\DateTimeImmutable $datePlanification): static
-    {
-        $this->datePlanification = $datePlanification;
-
-        return $this;
-    }
-
-    public function getHeureDebut(): ?\DateTimeImmutable
-    {
-        return $this->heure_debut;
-    }
-
-    public function setHeureDebut(\DateTimeImmutable $heure_debut): static
-    {
-        $this->heure_debut = $heure_debut;
-
-        return $this;
-    }
-
-    public function getHeureFin(): ?\DateTimeImmutable
-    {
-        return $this->heure_fin;
-    }
-
-    public function setHeureFin(\DateTimeImmutable $heure_fin): static
-    {
-        $this->heure_fin = $heure_fin;
-
-        return $this;
-    }
-
-    public function getNombreHeure(): ?int
-    {
-        return $this->nombre_heure;
-    }
-
-    public function setNombreHeure(int $nombre_heure): static
-    {
-        $this->nombre_heure = $nombre_heure;
-
-        return $this;
     }
 
     public function getSemestre(): ?string
@@ -127,8 +63,6 @@ class Planification
 
         return $this;
     }
-
- 
 
     public function getModule(): ?Module
     {
@@ -178,26 +112,56 @@ class Planification
         return $this;
     }
 
-    public function getHeureFait(): ?int
+    /**
+     * @return Collection<int, ClassePlanification>
+     */
+    public function getClassePlanifications(): Collection
     {
-        return $this->heure_fait;
+        return $this->classePlanifications;
     }
 
-    public function setHeureFait(int $heure_fait): static
+    public function addClassePlanification(ClassePlanification $classePlanification): static
     {
-        $this->heure_fait = $heure_fait;
+        if (!$this->classePlanifications->contains($classePlanification)) {
+            $this->classePlanifications->add($classePlanification);
+            $classePlanification->setPlanification($this);
+        }
 
         return $this;
     }
 
-    public function getCours(): ?Cours
+    public function removeClassePlanification(ClassePlanification $classePlanification): static
     {
-        return $this->cours;
+        if ($this->classePlanifications->removeElement($classePlanification)) {
+            // set the owning side to null (unless already changed)
+            if ($classePlanification->getPlanification() === $this) {
+                $classePlanification->setPlanification(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setCours(?Cours $cours): static
+    public function getCour(): ?Cours
     {
-        $this->cours = $cours;
+        return $this->cour;
+    }
+
+    public function setCour(?Cours $cour): static
+    {
+        $this->cour = $cour;
+
+        return $this;
+    }
+
+    public function getNombreHeure(): ?int
+    {
+        return $this->nombre_heure;
+    }
+
+    public function setNombreHeure(int $nombre_heure): static
+    {
+        $this->nombre_heure = $nombre_heure;
 
         return $this;
     }

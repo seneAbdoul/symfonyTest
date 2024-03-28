@@ -143,14 +143,14 @@
                         <i class="fas fa-bars"></i>
                     </a>
                 </div>
-    
+            
                 <nav class="p-4" style="background-color: rgb(5, 68, 104);height: 10px; margin-top: -2%;">
                     <div class="max-w-7xl mx-auto" >
                         <div class="flex justify-between" >
                             <div class="hidden md:block">
                                 <ul class="flex space-x-4">
-                                {% if app.user %}
-                                 {% if 'ROLE_ETUDIANT' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                  {% if app.user %}
+                                  {% if 'ROLE_ETUDIANT' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles  %}
                                     <li class="relative group">
                                         <button class="text-white hover:text-gray-300 focus:outline-none flex items-center">
                                             Etudiants
@@ -163,8 +163,8 @@
                                             <li><a href="{{path('app_etudiant_cour')}}" class="bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap">Mes Cours</a></li>
                                         </ul>
                                     </li>
-                                     {% endif %}
-                                     {% if 'ROLE_PROFESSEUR' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                      {% endif %}
+                                      {% if 'ROLE_PROFESSEUR' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles  %}
                                     <li class="relative group">
                                         <button class="text-white hover:text-gray-300 focus:outline-none flex items-center">
                                             Professeur
@@ -178,7 +178,7 @@
                                         </ul>
                                     </li>
                                     {% endif %}
-                                    {% if 'ROLE_AC' in app.user.roles or 'ROLE_RP' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                   {% if 'ROLE_AC' in app.user.roles or 'ROLE_RP' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles  %}
                                     <li class="relative group">
                                         <button class="text-white hover:text-gray-300 focus:outline-none flex items-center">
                                             Planifications
@@ -191,19 +191,21 @@
                                             <li><a href="{{path('app_planification_liste')}}" class="bg-white hover:bg-gray-200 py-2 px-4 block whitespace-no-wrap">Lister</a></li>
                                         </ul>
                                     </li>
-                                    {% endif %}
+                                  {% endif %}
+                                  {% endif %}
 
+                                  {% if app.user %}
                                     <li class="relative group1">
-                                        <button class="text-white hover:text-gray-300" style="margin-left: 55em;width:10%;">
+                                        <button class="text-white hover:text-gray-300" style="height:5%;margin-left: 40em;">
                                             <a name="" id="" class="btn btn-info btn-sm" 
                                              style="color:white" href="{{ path('app_security_logout') }}"
                                              role="button"> <i class="fas fa-sign-out-alt"></i>logout</a>
                                         </button>
                                     </li>
-                                {% endif %}
-
-                                 {% if not app.user %}   
-                                    <li class="relative group"style="margin-left: 65em;width:10%" >
+                                    {% endif %}
+                 
+                                  {% if not app.user %}
+                                    <li class="relative group"style="height:5%;margin-left: 50em;" >
                                         <button class="text-white hover:text-gray-300">
                                             <a name="" id="" class="btn btn-info btn-sm" 
                                             style="color:white" href="{{ path('app_security_login') }}"
@@ -221,16 +223,16 @@
              
         </div>
         <div class="sidebar">
-         {% if app.user %}
+            {% if app.user %}
             <div class="profile">
                 <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="profile_picture">
                 <h3>Cheikh</h3>
                 <p>sene</p>
             </div>
-              {% endif %}
+             {% endif %}
             <ul>
-             {% if app.user %}
-             {% if 'ROLE_AC' in app.user.roles or 'ROLE_RP' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles %}
+            {% if app.user %}
+            {% if 'ROLE_AC' in app.user.roles or 'ROLE_RP' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles  %}
                 <li>
                     <a href="{{path('app_professeur_liste')}}" class="active">
                         <span class="icon"><i class="fas fa-home"></i></span>
@@ -285,8 +287,8 @@
                         <span class="item">Absence</span>
                     </a>
                 </li>
-                 {% endif %}
-                 {% endif %}
+                  {% endif %}
+                {% endif %}
             </ul>
         </div>  
     </div>

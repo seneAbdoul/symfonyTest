@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste De Mes Cours{% endblock %}
+
+{% block body %}
+
+  <div class="container mt-6 mr-16" style="width: 80%;">
+  <h1 style="text-align: center;">liste des cours de {{etudiant.prenom}} {{etudiant.nom}}  de la classe {{classe.libelle}}  </h1> 
+    <div class="row d-flex justify-content-center" style="width: 100%;">
+        <div class="col-8 mt-4" style="width: 100%;">
+            <div class="overflow-x-auto " style="width: 100%;">
+                <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">id_cours</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">semestre</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">libelle_cours</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">professeur</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">module</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for planification in planifications %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.cour.id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.semestre }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.cour.libelle }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.professeur.nom }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ planification.module.libelle }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- Affichage de la pagination -->
+                <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
+                    {{ knp_pagination_render(planifications) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+  </div>
+
+
+{% endblock %}

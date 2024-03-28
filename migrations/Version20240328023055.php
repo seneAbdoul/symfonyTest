@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240327122121 extends AbstractMigration
+final class Version20240328023055 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -31,9 +31,10 @@ final class Version20240327122121 extends AbstractMigration
         $this->addSql('CREATE TABLE inscription (id INT AUTO_INCREMENT NOT NULL, etudiant_id INT NOT NULL, classe_id INT NOT NULL, annee_scolaire_id INT NOT NULL, INDEX IDX_5E90F6D6DDEAB1A3 (etudiant_id), INDEX IDX_5E90F6D68F5EA509 (classe_id), INDEX IDX_5E90F6D69331C741 (annee_scolaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE module (id INT AUTO_INCREMENT NOT NULL, libelle VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE niveau (id INT AUTO_INCREMENT NOT NULL, libelle VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE planification (id INT AUTO_INCREMENT NOT NULL, module_id INT DEFAULT NULL, professeur_id INT DEFAULT NULL, cours_id INT DEFAULT NULL, date_planification DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', heure_debut TIME DEFAULT NULL COMMENT \'(DC2Type:time_immutable)\', heure_fin TIME DEFAULT NULL COMMENT \'(DC2Type:time_immutable)\', nombre_heure INT NOT NULL, semestre VARCHAR(25) NOT NULL, heure_fait INT NOT NULL, INDEX IDX_FFC02E1BAFC2B591 (module_id), INDEX IDX_FFC02E1BBAB22EE9 (professeur_id), INDEX IDX_FFC02E1B7ECF78B0 (cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE planification (id INT AUTO_INCREMENT NOT NULL, module_id INT DEFAULT NULL, professeur_id INT DEFAULT NULL, semestre VARCHAR(25) NOT NULL, nombre_heure INT NOT NULL, INDEX IDX_FFC02E1BAFC2B591 (module_id), INDEX IDX_FFC02E1BBAB22EE9 (professeur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE planification_classe (planification_id INT NOT NULL, classe_id INT NOT NULL, INDEX IDX_19DB1A4DE65142C2 (planification_id), INDEX IDX_19DB1A4D8F5EA509 (classe_id), PRIMARY KEY(planification_id, classe_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE professeur (id INT NOT NULL, grade VARCHAR(25) NOT NULL, cni VARCHAR(30) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE responsable (id INT NOT NULL, acces VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, nom VARCHAR(25) NOT NULL, prenom VARCHAR(25) NOT NULL, image_name VARCHAR(255) DEFAULT NULL, date_ajouter_user DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', discr VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE absence ADD CONSTRAINT FK_765AE0C9DDEAB1A3 FOREIGN KEY (etudiant_id) REFERENCES etudiant (id)');
         $this->addSql('ALTER TABLE absence ADD CONSTRAINT FK_765AE0C9B7942F03 FOREIGN KEY (cour_id) REFERENCES cours (id)');
@@ -50,10 +51,10 @@ final class Version20240327122121 extends AbstractMigration
         $this->addSql('ALTER TABLE inscription ADD CONSTRAINT FK_5E90F6D69331C741 FOREIGN KEY (annee_scolaire_id) REFERENCES annee_scolaire (id)');
         $this->addSql('ALTER TABLE planification ADD CONSTRAINT FK_FFC02E1BAFC2B591 FOREIGN KEY (module_id) REFERENCES module (id)');
         $this->addSql('ALTER TABLE planification ADD CONSTRAINT FK_FFC02E1BBAB22EE9 FOREIGN KEY (professeur_id) REFERENCES professeur (id)');
-        $this->addSql('ALTER TABLE planification ADD CONSTRAINT FK_FFC02E1B7ECF78B0 FOREIGN KEY (cours_id) REFERENCES cours (id)');
         $this->addSql('ALTER TABLE planification_classe ADD CONSTRAINT FK_19DB1A4DE65142C2 FOREIGN KEY (planification_id) REFERENCES planification (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE planification_classe ADD CONSTRAINT FK_19DB1A4D8F5EA509 FOREIGN KEY (classe_id) REFERENCES classe (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE professeur ADD CONSTRAINT FK_17A55299BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE responsable ADD CONSTRAINT FK_52520D07BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema): void
@@ -74,10 +75,10 @@ final class Version20240327122121 extends AbstractMigration
         $this->addSql('ALTER TABLE inscription DROP FOREIGN KEY FK_5E90F6D69331C741');
         $this->addSql('ALTER TABLE planification DROP FOREIGN KEY FK_FFC02E1BAFC2B591');
         $this->addSql('ALTER TABLE planification DROP FOREIGN KEY FK_FFC02E1BBAB22EE9');
-        $this->addSql('ALTER TABLE planification DROP FOREIGN KEY FK_FFC02E1B7ECF78B0');
         $this->addSql('ALTER TABLE planification_classe DROP FOREIGN KEY FK_19DB1A4DE65142C2');
         $this->addSql('ALTER TABLE planification_classe DROP FOREIGN KEY FK_19DB1A4D8F5EA509');
         $this->addSql('ALTER TABLE professeur DROP FOREIGN KEY FK_17A55299BF396750');
+        $this->addSql('ALTER TABLE responsable DROP FOREIGN KEY FK_52520D07BF396750');
         $this->addSql('DROP TABLE absence');
         $this->addSql('DROP TABLE annee_scolaire');
         $this->addSql('DROP TABLE classe');
@@ -92,6 +93,7 @@ final class Version20240327122121 extends AbstractMigration
         $this->addSql('DROP TABLE planification');
         $this->addSql('DROP TABLE planification_classe');
         $this->addSql('DROP TABLE professeur');
+        $this->addSql('DROP TABLE responsable');
         $this->addSql('DROP TABLE user');
     }
 }

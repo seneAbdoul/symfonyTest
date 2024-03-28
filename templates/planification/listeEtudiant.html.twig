@@ -1,32 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste De la classe {{classe.libelle}} {% endblock %}
+{% block title %}Liste etudiant{% endblock %}
 
 {% block body %}
 
-  <div class="container mt-6 mr-16" style="width: 80%"> 
-  <h1 style="text-align: center;margin-top: 4%;">Liste De la classe {{classe.libelle}} </h1>          
+  <div class="container mt-6 mr-16" style="width: 80%;">
+      <h1 style="text-align: center;">Liste des Etudiant {{ etudiants[0].classe.libelle }} </h1>
     <div class="row d-flex justify-content-center" style="width: 100%;">
-        <div class="col-8 mt-2" style="width: 100%;">
+        <div class="col-8 mt-4" style="width: 100%;">
             <div class="overflow-x-auto " style="width: 100%;">
                 <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Matricule</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Nom</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">matricule</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">nom</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">prenom</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">Tuteur</th>
-                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">tuteur</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">classe</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {% for student in etudiants %}
+                        {% for etudiant in etudiants %}
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ student.etudiant.matricule}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ student.etudiant.nom}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ student.etudiant.prenom  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ student.etudiant.tuteur  }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+                            <td class="px-6 py-4 whitespace-nowrap">{{ etudiant.etudiant.matricule }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ etudiant.etudiant.nom }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ etudiant.etudiant.prenom}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ etudiant.etudiant.tuteur }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ etudiant.classe.libelle }}</td>
+                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
                                 <a href=""><span class="icon"><i class="fas fa-pen"></i></span></a>
                                 <a href=""><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                             </td>
@@ -40,9 +42,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    
+    </div> 
   </div>
+
 
 {% endblock %}

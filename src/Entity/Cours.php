@@ -24,11 +24,11 @@ class Cours
     #[ORM\OneToMany(targetEntity: Absence::class, mappedBy: 'cour')]
     private Collection $absences;
 
-    #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'cours')]
-    private Collection $planifications;
-
     #[ORM\Column(length: 25)]
     private ?string $etat = null;
+
+    #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'cour')]
+    private Collection $planifications;
 
   
 
@@ -37,8 +37,7 @@ class Cours
     public function __construct()
     {
         $this->absences = new ArrayCollection();
-        $this->planifications = new ArrayCollection();
-     
+        $this->planifications = new ArrayCollection();     
     }
 
     public function getId(): ?int
@@ -88,6 +87,18 @@ class Cours
         return $this;
     }
 
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): static
+    {
+        $this->etat = $etat;
+        
+        return $this;
+    }
+
     /**
      * @return Collection<int, Planification>
      */
@@ -100,7 +111,7 @@ class Cours
     {
         if (!$this->planifications->contains($planification)) {
             $this->planifications->add($planification);
-            $planification->setCours($this);
+            $planification->setCour($this);
         }
 
         return $this;
@@ -110,23 +121,11 @@ class Cours
     {
         if ($this->planifications->removeElement($planification)) {
             // set the owning side to null (unless already changed)
-            if ($planification->getCours() === $this) {
-                $planification->setCours(null);
+            if ($planification->getCour() === $this) {
+                $planification->setCour(null);
             }
         }
 
-        return $this;
-    }
-
-    public function getEtat(): ?string
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(string $etat): static
-    {
-        $this->etat = $etat;
-        
         return $this;
     }
 

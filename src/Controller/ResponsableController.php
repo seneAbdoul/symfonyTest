@@ -16,7 +16,7 @@ class ResponsableController extends AbstractController
     public function add(Request $request,EntityManagerInterface $manager): Response
     {
         $responsable = new Responsable();
-        $responsable->setRoles(["ROLE_RP"]);
+        $responsable->setRoles(["ROLE_SUPER_ADMIN"]);
         $form = $this->createForm(ResponsableType::class, $responsable);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -71,8 +71,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->dateAjouterUser = new \DateTimeImmutable;
     }
-
-
     public function getId(): ?int
     {
         return $this->id;

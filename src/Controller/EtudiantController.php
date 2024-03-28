@@ -100,33 +100,6 @@ class EtudiantController extends AbstractController
        ]);
     }
 
-    #[Route('/etudiant/cour', name: 'app_etudiant_cour', methods: ['GET','POST'])]
-    public function cour(Request $request,PaginatorInterface $paginator){
-        $etudiant = $this->getUser();
-        $mesCours = [];
-    
-        if ($etudiant instanceof Etudiant){
-            $inscriptions = $etudiant->getInscriptions();
-
-            foreach ($inscriptions as $inscription) {
-                $planifications = $inscription->getClasse()->getPlanifications()->toArray(); 
-    
-                foreach ($planifications as $planification) {
-                    $mesCourss[] = $planification->getCours();
-                }
-            }
-        } 
-        //dd($mesCours);
-        $mesCours = $paginator ->paginate(
-            $mesCourss,
-            $request->query->getInt('page',1),
-            5,
-        );
-        return $this->render('etudiant/cours.html.twig', [
-            'mesCours' => $mesCours
-        ]);
-    }
-    
     #[Route('/etudiant/listeAbsence', name: 'app_etudiant_listeAbsence', methods: ['GET','POST'])]
     public function listeAbsence(Request $request,
     EtudiantRepository $etudiantRepository,PaginatorInterface $paginator){
@@ -145,4 +118,32 @@ class EtudiantController extends AbstractController
         'etudiant'=> $etudiant
        ]);
     }
+    #[Route('/etudiant/cour', name: 'app_etudiant_cour', methods: ['GET','POST'])]
+    public function cour(PaginatorInterface $paginator,Request $request){
+        $etudiant = $this->getUser();
+      if ($etudiant instanceof Etudiant) {
+          $inscriptions = $etudiant->getInscriptions()->toArray(); 
+      }
+      if ($inscriptions) {
+        if ($inscriptions[0]->getAnneeScolaire() ->getEtat() == 'true') {
+             $classe = $inscriptions[0] ->getClasse();
+        }
+          
+      }
+      if ($classe) {
+       $planificationss = $classe->getPlanifications()->toArray(); 
+      }  
+     // dd($planificationss);
+       $planifications = $paginator ->paginate(
+        $planificationss,
+        $request->query->getInt('page',1),
+        5,
+    );
+       return $this->render('etudiant/cour.html.twig',[
+        'planifications'=> $planifications,
+        'etudiant'=> $etudiant,
+        'classe' => $classe
+       ]);
+    }
+
 }
