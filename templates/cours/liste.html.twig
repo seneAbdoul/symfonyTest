@@ -14,7 +14,7 @@
                 <div class="row justify-content-center" style="width: 100%; height: 100px;" >
             {{ form_start(form) }}
                 <div class="form-group d-flex justify-content-between align-items-top mt-4">
-                    <div class="form-group " style="margin-top: -1%;">
+                    <div class="form-group " style="margin-top: -1.5%;">
                     {{ form_label(form.libelle) }}
                     </div>
 
@@ -52,7 +52,7 @@
                              <td class="px-6 py-4 whitespace-nowrap flex justify-around">
                             <a name="" id="" class="btn btn-info btn-sm" 
                               style="color:white" href="{{ path('app_cours_listeAbsence',{ id: cour.id })}}" role="button">Voir Absences</a>
-                             <a href="{{path('app_cours_edit',{id: cour.id})}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
+                              <a href="{{path('app_cours_edit',{id: cour.id})}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
                               <a href="{{path('app_cours_delete',{id: cour.id})}}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                             </td>
                         </tr>

@@ -104,4 +104,52 @@ class PlanificationController extends AbstractController
          ]) ;
     }
   
+    #[Route('/planification/edition/{id}', name: 'app_planification_edit', methods: ['GET','POST'])]
+    public function edit(Request $request,EntityManagerInterface $em,Planification $planification): Response
+    {
+        $classes = $planification ->getClasses();
+        $form = $this->createForm(PlanificationType::class, $planification);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $planification = $form->getData();
+            $em->persist($planification);
+            $em->flush();
+            foreach ($classes as $value) {
+                $classePlanification = new ClassePlanification();
+                $classePlanification->setClasse($value);
+                $classePlanification->setHeureFait(0) ;
+                $classePlanification ->setPlanification($planification);
+                $classePlanification ->setNombreHeure($planification->getNombreHeure());
+                $em ->persist($classePlanification);
+                $em->flush(); 
+            }
+            $this ->addFlash(
+                "success",
+                 "cette planification a ete modifier avec succes");
+                 return $this->redirectToRoute("app_planification_liste");
+
+        }
+        return $this->render('planification/edit.html.twig',[
+            'form'=> $form->createView(),
+        ]);
+    }
+    #[Route('/planification/suppression/{id}', name: 'app_planification_delete', methods: ['GET'])]
+    public function delete(
+    EntityManagerInterface $manager,Request $request,PlanificationRepository $planificationRepository){
+        $id = $request->attributes->get('id');
+        $planification = $planificationRepository->find($id);
+        $classeplanification = $planification ->getClassePlanifications()->toArray();
+        foreach ($classeplanification as $value) {
+            $manager ->remove($value);
+           $manager ->flush(); 
+        }
+
+        $manager ->remove($planification);
+        $manager ->flush(); 
+
+        $this ->addFlash(
+           "success",
+            "planification supprimer avec succes");
+            return $this->redirectToRoute("app_planification_liste");             
+    }
 }

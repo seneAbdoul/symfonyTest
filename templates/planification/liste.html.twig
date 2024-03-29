@@ -81,6 +81,9 @@
                             <td class="px-6 py-4 whitespace-nowrap flex justify-around">
                             <a name="" id="" class="btn btn-info btn-sm" style="color:white" 
                             href="{{path('app_planification_detail',{id : planification.id})}}" role="button">Voir Classes</a>
+
+                             <a href="{{path('app_planification_edit',{id: planification.id})}}"><span class="icon"><i class="fas fa-pen"></i></span></a>
+                              <a href="{{path('app_planification_delete',{id: planification.id})}}"><span class="icon"><i class="fas fa-trash-alt" style="color: red;"></i></span></a>
                             </td>
                         </tr>
                         {% endfor %}
