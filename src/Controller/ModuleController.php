@@ -25,7 +25,7 @@ class ModuleController extends AbstractController
         $modules = $paginator->paginate(
             $moduleRepository->findAll(),
             $request->query->getInt('page', 1),
-            5 
+            4
         );
         $module = new Module();
          $form = $this->createForm(ModuleType::class, $module);
@@ -54,7 +54,7 @@ class ModuleController extends AbstractController
         $modules = $paginator->paginate(
             $moduleRepository->findAll(),
             $request->query->getInt('page', 1),
-            5 
+            4 
         );
 
          $form = $this->createForm(ModuleType::class, $module);

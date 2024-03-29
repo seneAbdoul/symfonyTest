@@ -22,7 +22,7 @@ class FiliereController extends AbstractController
         $filieres = $paginator->paginate(
             $filiereRepository->findAll(), 
             $request->query->getInt('page', 1), 
-            5 
+            4 
         );
 
         $filiere = new Filiere(); 
@@ -50,7 +50,7 @@ class FiliereController extends AbstractController
         $filieres = $paginator->paginate(
             $filiereRepository->findAll(), 
             $request->query->getInt('page', 1), 
-            5 
+            4
         );
 
         $form = $this->createForm(FiliereType::class, $filiere);

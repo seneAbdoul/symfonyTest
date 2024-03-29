@@ -23,7 +23,7 @@ class NiveauController extends AbstractController
           $niveaux = $paginator->paginate(
             $niveauRepository->findAll(),
             $request->query->getInt('page', 1),
-            5 
+            4
         );
         $niveau = new Niveau();
         $form = $this->createForm(NiveauType::class, $niveau);
@@ -49,7 +49,7 @@ class NiveauController extends AbstractController
                 $niveaux = $paginator->paginate(
                     $niveauRepository->findAll(),
                     $request->query->getInt('page',1),
-                    5
+                    4
                 );
                 $form = $this->createForm(NiveauType::class, $niveau);
                 $form->handleRequest($request);
