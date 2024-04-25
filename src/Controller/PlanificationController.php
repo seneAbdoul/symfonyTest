@@ -79,7 +79,6 @@ class PlanificationController extends AbstractController
             $request->query->getInt('page',1),
             5
         ) ;
-       //dd($classes);
         return $this->render('planification/detail.html.twig',[
             'classes'=> $classes,
             'planification'=> $planification,
@@ -141,9 +140,8 @@ class PlanificationController extends AbstractController
         $classeplanification = $planification ->getClassePlanifications()->toArray();
         foreach ($classeplanification as $value) {
             $manager ->remove($value);
-           $manager ->flush(); 
+            $manager ->flush(); 
         }
-
         $manager ->remove($planification);
         $manager ->flush(); 
 

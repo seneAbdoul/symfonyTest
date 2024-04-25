@@ -124,12 +124,14 @@ class EtudiantController extends AbstractController
       if ($etudiant instanceof Etudiant) {
           $inscriptions = $etudiant->getInscriptions()->toArray(); 
       }
+             
       if ($inscriptions) {
-        if ($inscriptions[0]->getAnneeScolaire() ->getEtat() == 'true') {
-             $classe = $inscriptions[0] ->getClasse();
-        }
-          
-      }
+        foreach ($inscriptions as  $value){
+            if ($value->getAnneeScolaire() ->getEtat() == 'true') {
+                $classe = $value ->getClasse();
+           }   
+        } 
+     }
       if ($classe) {
        $planificationss = $classe->getPlanifications()->toArray(); 
       }  
@@ -146,4 +148,47 @@ class EtudiantController extends AbstractController
        ]);
     }
 
+    #[Route('/etudiant/listeSeance', name: 'app_etudiant_listeSeance', methods: ['GET','POST'])]
+    public function listeSeance(PaginatorInterface $paginator,Request $request){
+        $etudiant = $this->getUser();
+        if ($etudiant instanceof Etudiant) {
+            $inscriptions = $etudiant->getInscriptions()->toArray(); 
+        }
+       
+        if ($inscriptions) {
+            foreach ($inscriptions as  $value){
+                if ($value->getAnneeScolaire() ->getEtat() == 'true') {
+                    $classe = $value ->getClasse();
+                    $annee = $value->getAnneeScolaire();
+               }   
+            } 
+        }
+        if ($classe) {
+            $classePlanifications = $classe->getClassePlanifications()->toArray();
+           } 
+          $seanceEtudiants = [];
+          if ($classePlanifications) {
+            foreach ($classePlanifications as $value){
+                $seanceEtudiants[] = $value ->getSeances()->toArray(); 
+            }    
+          }
+          $seancess = [];
+          foreach ($seanceEtudiants as  $value) {
+              foreach ($value as $value1){
+                  $seancess[] = $value1 ;
+              }
+          } 
+          $seances = $paginator ->paginate(
+            $seancess,
+            $request->query->getInt('page',1),
+            3,
+        );
+        return $this->render('etudiant/listeSeance.html.twig',[
+            'seances'=> $seances,
+            'etudiant'=> $etudiant,
+            'classe'=> $classe,
+            'annee'=> $annee 
+        ]);
+
+    }
 }

@@ -97,7 +97,47 @@ class ProfesseurController extends AbstractController
             'classes' => $classes  
         ]);
     }
-
+     #[Route('/professeur/listeSeance', name: 'app_professeur_listeSeance',methods: ['GET'])]
+        public function listeSeance(PaginatorInterface $paginator,Request $request){
+            $professeur = $this ->getUser();
+            if($professeur instanceof Professeur){
+                $planifications = $professeur -> getPlanifications()->toArray();
+            }
+          
+            if($planifications){
+                  $profPlanifications = [];
+                  foreach ($planifications as $value) { 
+                    $profPlanifications[] = $value ->getClassePlanifications()->toArray();
+                  }
+            }
+            $profPlanificationss = [];
+            foreach ($profPlanifications as $value) {
+                foreach ($value as $value1) {
+                    $profPlanificationss[] = $value;
+                } 
+            }
+            $seancess = [];
+            foreach ($profPlanificationss as $value) {
+                foreach ($value as  $value1) {
+                    $seancess[] = $value1 ->getSeances()->toArray();
+                }  
+            }
+            $seancesss = [];
+            foreach ($seancess as $value) {
+                foreach ($value as $value1) {
+                    $seancesss[] = $value1;
+                }    
+            }
+            $seances = $paginator->paginate(
+                $seancesss, 
+                $request->query->getInt('page', 1), 
+                5
+            );
+            return $this->render('professeur/listeSeance.html.twig',[
+                'seances' => $seances,
+                'professeur'=> $professeur,
+            ]);
+        }
 
 
 }

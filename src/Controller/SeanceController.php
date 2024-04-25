@@ -23,12 +23,13 @@ class SeanceController extends AbstractController
     PaginatorInterface $paginator,EntityManagerInterface $manager): Response
     { 
         $seance = new Seance();
+        //id=idclassePlanification
         $id = $request->query->getInt('id');
         $classePlanification = $classePlanificationRepository->find($id);
         $planification  = $classePlanification->getPlanification();
         $professeur = $planification ->getProfesseur();
         //dd($classePlanification);
-        // dd($planification);
+        //dd($planification);
         //dd($professeur);
         $form = $this ->createForm(SeanceType::class, $seance);
         $form->handleRequest($request);
@@ -46,7 +47,7 @@ class SeanceController extends AbstractController
         }
 
         $seances = $paginator ->paginate(
-            $seanceRepository ->findAll(),
+            $seances = $seanceRepository->findBy(['classePlanification' => $id]),
             $request ->query->getInt('page',1),
             3,
        );

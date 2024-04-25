@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SeanceController!{% endblock %}
+
+{% block body %}
+       <div class="container mt-4 mr-16" style="width: 80%;">
+        <div class="container1" style="width: 98%;">
+            <div class="d-flex justify-content-between">
+                <div class="card shadow-sm" style="width: 20rem;">
+                    <div class="card-body" style="display: flex; justify-content: space-around;">
+                        <img src="{{ asset('images/etudiants/' ~ etudiant.imageName) }}"
+                         alt="Photo du professeur" style="height: auto;width: 30%;">
+                         <div class="information" style="margin-top: 5%;">
+                            <div class="nom" style="display: flex; margin-left: 3%;margin-top: 2%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Nom : </h1><h1>{{etudiant.nom}} </h1>
+                            </div>
+                            <div class="grade" style="display: flex; margin-left: 3%;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Prenom : </h1> <h1> {{etudiant.prenom}}</h1>
+                            </div>
+                            <div class="grade" style="display: flex; margin-left: 3%;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Tuteur : </h1> <h1>{{etudiant.tuteur}} </h1>
+                            </div>
+                            <div class="cni" style="display: flex;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Matricule: </h1> <h1> {{etudiant.matricule}}</h1>
+                            </div>
+                         </div>
+                        
+                    </div>
+                </div>
+                <div class="card shadow-sm" style="width: 18rem;">
+                    <div class="card-body">
+                        <h1 style="text-align: center;">seance de le classe {{etudiant.prenom}}  </h1>
+                        <div class="information" style="margin-top: 5%;" >
+                            <div class="nom" style="display: flex; margin-top: 2%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Classe : </h1><h1>{{classe.libelle}} </h1>
+                            </div>
+                            <div class="grade" style="display: flex;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Niveau : </h1> <h1> {{classe.niveau.libelle}}</h1>
+                            </div>
+                            <div class="grade" style="display: flex;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Filiere : </h1> <h1>{{classe.filiere.libelle}} </h1>
+                            </div>
+                            <div class="cni" style="display: flex;margin-top: 5%;">
+                                <h1 style="color:rgb(5, 68, 104) ;">Classe: </h1> <h1> {{annee.libelle}}</h1>
+                            </div>
+                         </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container1">
+            <div class="d-flex justify-content-between">
+                    <div class="tableau"style="width: 100%;">
+                        <h1 style="text-align: center;">Liste des cours de {{etudiant.nom}} </h1>
+                        <div class="row d-flex justify-content-center" style="width: 100%;">
+                            <div class="col-8 mt-4" style="width: 100%;">
+                                <div class="overflow-x-auto " style="width: 100%;">
+                                    <table class="table-auto min-w-full divide-y divide-gray-200" style="width: 100%;">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">date</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">heure_debut</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">heure_fin</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">etat</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            {% for seance in seances %}
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap"> {{ seance.date|date('d/m/Y') }} </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">{{ seance.getHeureDebut|date('H:i:s') }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">{{ seance.getHeureFin|date('H:i:s') }}</td> 
+                                                <td class="px-6 py-4 whitespace-nowrap">{{ seance.getEtat }}</td>                                               
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <!-- Affichage de la pagination -->
+                                    <div class="navigation d-flex justify-content-center mt-2 " style="color:rgb(5, 68, 104) ;">
+                                        {{ knp_pagination_render(seances) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+           </div>
+        </div>
+
+       </div>
+{% endblock %}

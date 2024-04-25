@@ -28,7 +28,7 @@ class FiliereController extends AbstractController
         $filiere = new Filiere(); 
         $form = $this->createForm(FiliereType::class, $filiere);
         $form->handleRequest($request);
-        if($form ->isSubmitted() && $form->isValid()) {
+        if($form ->isSubmitted() && $form->isValid()){
             $filiere = $form->getData();
             $manager ->persist($filiere);
             $manager ->flush();
