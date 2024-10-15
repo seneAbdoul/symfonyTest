@@ -36,6 +36,25 @@ class ClasseRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    public function findByFiliereAndNiveau($filiereId, $niveauId)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        if ($filiereId) {
+            $queryBuilder->leftJoin('c.filiere', 'f')
+                         ->andWhere('f.id = :filiereId')
+                         ->setParameter('filiereId', $filiereId);
+        }
+
+        if ($niveauId) {
+            $queryBuilder->leftJoin('c.niveau', 'n')
+                         ->andWhere('n.id = :niveauId')
+                         ->setParameter('niveauId', $niveauId);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     //    public function findOneBySomeField($value): ?Classe
     //    {
     //        return $this->createQueryBuilder('c')

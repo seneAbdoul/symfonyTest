@@ -26,9 +26,13 @@ class Module
     #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'module')]
     private Collection $planifications;
 
+    #[ORM\ManyToMany(targetEntity: Examen::class, mappedBy: 'modules')]
+    private Collection $examens;
+
     public function __construct()
     {
         $this->planifications = new ArrayCollection();
+        $this->examens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,6 +77,33 @@ class Module
             if ($planification->getModule() === $this) {
                 $planification->setModule(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Examen>
+     */
+    public function getExamens(): Collection
+    {
+        return $this->examens;
+    }
+
+    public function addExamen(Examen $examen): static
+    {
+        if (!$this->examens->contains($examen)) {
+            $this->examens->add($examen);
+            $examen->addModule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamen(Examen $examen): static
+    {
+        if ($this->examens->removeElement($examen)) {
+            $examen->removeModule($this);
         }
 
         return $this;

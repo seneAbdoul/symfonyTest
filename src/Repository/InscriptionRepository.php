@@ -36,6 +36,20 @@ class InscriptionRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    
+public function findEtudiantByClassse($classeId)
+{
+    $queryBuilder = $this->createQueryBuilder('c');
+
+    if ($classeId) {
+        $queryBuilder->leftJoin('c.classe', 'cl')
+                     ->andWhere('cl.id = :classeId')
+                     ->setParameter('classeId', $classeId);
+    }
+
+    return $queryBuilder->getQuery()->getResult();
+}
+
 //    public function findOneBySomeField($value): ?Inscription
 //    {
 //        return $this->createQueryBuilder('i')

@@ -28,10 +28,15 @@ class Professeur extends User
     #[ORM\OneToMany(targetEntity: Planification::class, mappedBy: 'professeur')]
     private Collection $planifications;
 
+    #[ORM\ManyToMany(targetEntity: Examen::class, mappedBy: 'professeurs')]
+    private Collection $examens;
+
+
     public function __construct()
     {
         parent::__construct();
         $this->planifications = new ArrayCollection();
+        $this->examens = new ArrayCollection();
     }
 
     public function getGrade(): ?string
@@ -106,4 +111,32 @@ class Professeur extends User
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Examen>
+     */
+    public function getExamens(): Collection
+    {
+        return $this->examens;
+    }
+
+    public function addExamen(Examen $examen): static
+    {
+        if (!$this->examens->contains($examen)) {
+            $this->examens->add($examen);
+            $examen->addProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamen(Examen $examen): static
+    {
+        if ($this->examens->removeElement($examen)) {
+            $examen->removeProfesseur($this);
+        }
+
+        return $this;
+    }
+
 }

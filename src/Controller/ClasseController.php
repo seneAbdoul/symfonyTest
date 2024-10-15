@@ -41,15 +41,22 @@ class ClasseController extends AbstractController
     }
 
   
-    #[Route('/classe/liste', name: 'app_classe_liste', methods: ['GET'])]
+    #[Route('/classe/liste/{id?}', name: 'app_classe_liste', methods: ['GET'])]
     public function liste(ClasseRepository $classeRepository,
     PaginatorInterface $paginator,
     Request $request,FiliereRepository $filiereRepository,NiveauRepository $niveauRepository): Response
     {
+
+        $filiereId = $request->query->get('filiere');
+        $niveauId = $request->query->get('niveau');
+    
+        // Créez une méthode dans votre repository pour filtrer les résultats en fonction des filières et des niveaux
+        $classess = $classeRepository->findByFiliereAndNiveau($filiereId, $niveauId);
+
         $classes = $paginator->paginate(
-            $classeRepository->findAll(),
+            $classess,
             $request->query->getInt('page',1),
-            5
+            4
         ) ;
         return $this->render('classe/liste.html.twig',[
             'classes'=> $classes,
@@ -96,7 +103,7 @@ class ClasseController extends AbstractController
             $etudiantss,
             $request->query->getInt('page',1),
             5
-        ) ;
+        );
 
         return $this->render('classe/classeListeEtudiant.html.twig',[
             'etudiants'=> $etudiants,

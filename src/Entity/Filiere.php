@@ -27,9 +27,13 @@ class Filiere
     #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'filiere')]
     private Collection $classes;
 
+    #[ORM\ManyToMany(targetEntity: Examen::class, mappedBy: 'filieres')]
+    private Collection $examens;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
+        $this->examens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,6 +59,33 @@ class Filiere
     public function getClasses(): Collection
     {
         return $this->classes;
+    }
+
+    /**
+     * @return Collection<int, Examen>
+     */
+    public function getExamens(): Collection
+    {
+        return $this->examens;
+    }
+
+    public function addExamen(Examen $examen): static
+    {
+        if (!$this->examens->contains($examen)) {
+            $this->examens->add($examen);
+            $examen->addFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamen(Examen $examen): static
+    {
+        if ($this->examens->removeElement($examen)) {
+            $examen->removeFiliere($this);
+        }
+
+        return $this;
     }
 
 }

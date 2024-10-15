@@ -24,14 +24,16 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class EtudiantController extends AbstractController
 {
-    #[Route('/etudiantInscrit/liste', name: 'app_etudiant_Inscritliste', methods: ['GET'])]
+    #[Route('/etudiantInscrit/liste/{id?}', name: 'app_etudiant_Inscritliste', methods: ['GET'])]
     public function liste(InscriptionRepository $inscriptionRepository,
     Request $request,
     PaginatorInterface $paginator,ClasseRepository $classe,AbsenceRepository $absenceRepository): Response
     {     
         $classes = $classe->findAll();
+        $Idclasse = $request->query->get('classe');
+        $inscriptionss = $inscriptionRepository->findEtudiantByClassse($Idclasse);
         $inscriptions = $paginator ->paginate(
-            $inscriptionRepository->findAll(),
+            $inscriptionss,
             $request->query->getInt('page',1),
             5,
         );

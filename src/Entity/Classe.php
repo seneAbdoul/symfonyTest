@@ -42,6 +42,9 @@ class Classe
     #[ORM\OneToMany(targetEntity: ClassePlanification::class, mappedBy: 'classe')]
     private Collection $classePlanifications;
 
+    #[ORM\ManyToMany(targetEntity: Examen::class, mappedBy: 'classes')]
+    private Collection $examens;
+
 
     public function __construct()
     {
@@ -49,6 +52,7 @@ class Classe
         $this->inscriptions = new ArrayCollection();
         $this->planifications = new ArrayCollection();
         $this->classePlanifications = new ArrayCollection();
+        $this->examens = new ArrayCollection();
 
     }
 
@@ -213,6 +217,33 @@ class Classe
             if ($classePlanification->getClasse() === $this) {
                 $classePlanification->setClasse(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Examen>
+     */
+    public function getExamens(): Collection
+    {
+        return $this->examens;
+    }
+
+    public function addExamen(Examen $examen): static
+    {
+        if (!$this->examens->contains($examen)) {
+            $this->examens->add($examen);
+            $examen->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamen(Examen $examen): static
+    {
+        if ($this->examens->removeElement($examen)) {
+            $examen->removeClass($this);
         }
 
         return $this;
